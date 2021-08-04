@@ -8,3 +8,6 @@ The Private Code base that has been used for PSRV32 Processor.
 ### Single cycle Processor Control+Datapath
 The figure below shows the description of a simple processor (operates only on R-type, Load/Store and Branch instructions) design without pipelining for RV32I based implementation without pipelining.
 ![image](https://user-images.githubusercontent.com/64090461/128110276-a844d89f-4e30-40e9-911f-cb2f222c8954.png)
+
+The same aboved processor extended to implement jump instructions as well
+![image](https://user-images.githubusercontent.com/64090461/128113806-cc7db23b-0b7f-466d-95c0-0c3280e972bb.png)
