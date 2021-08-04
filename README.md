@@ -4,8 +4,13 @@ The Private Code base that has been used for PSRV32 Processor.
 
 ## Note or Standard Points for All Stages
 - Reads are always Combinational, Writes are sequential
-- Have  a common clock signal across all the modules with name **clk**
+- Have a common clock signal across all the modules with name **clk**
+- In all the flowcharts attached below the following convention is being held: *we highlight the right half of registers or memory when they are
+being read and highlight the left half when they are being written*
 
+## Designing the Pipeline flow
+- There are registers at the junction between any two stages of the pipeline so that the data from one stage of the pipeline reaches the next stage.
+- 
 ### Final Pipeline Control+Datapath
 ![image](https://user-images.githubusercontent.com/64090461/127973794-6788ecbb-c25b-4304-9fd5-c17138abe390.png)
 
