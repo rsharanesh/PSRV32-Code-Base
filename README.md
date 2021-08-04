@@ -11,12 +11,19 @@ being read and highlight the left half when they are being written*
 ## Designing the Pipeline flow
 - There are registers at the junction between any two stages of the pipeline so that the data from one stage of the pipeline reaches the next stage.
 
-## 5-Stages of the Pipeline
+## 5-Stages of the Pipeline for a *load* instruction
+
 1. ***Instruction fetch:*** The top portion of Figure 4.36 shows the instruction being read from memory using the address in the PC and then being placed in the IF/ID pipeline register.The PC address is incremented by 4 and then written back into the PC to be ready for the next clock cycle. This incremented address is also saved in the IF/ID pipeline register in case it is needed later for an instruction,such as beq. The computer cannot know which type of instruction is being fetched, so it must prepare for any instruction, passing potentially needed information down the pipeline.
 
 2. ***Instruction decode and register file read:*** The bottom portion of Figure 4.36 shows the instruction portion of the IF/ID pipeline register supplying the 16-bit immediate field, which is sign-extended to 32 bits, and the register numbers to read the two registers. All three values are stored in the ID/EX pipeline register, along with the incremented PC address. We again transfer everything that might be needed by any instruction during a later clock cycle.
 
-3. 
+3. ***Execute or address calculation***: Figure 4.37 shows that the load instruction reads the contents of register 1 and the sign-extended immediate from the
+ID/EX pipeline register and adds them using the ALU. That sum is placed in the EX/MEM pipeline register.
+
+4. ***Memory access:*** The top portion of Figure 4.38 shows the load instruction reading the data memory using the address from the EX/MEM pipeline register and loading the data into the MEM/WB pipeline register.
+
+6. ***Write-back:*** The bottom portion of Figure 4.38 shows the final step: reading the data from the MEM/WB pipeline register and writing it into the register file in the middle of the figure.
+
 ### Final Pipeline Control+Datapath
 ![image](https://user-images.githubusercontent.com/64090461/127973794-6788ecbb-c25b-4304-9fd5-c17138abe390.png)
 
