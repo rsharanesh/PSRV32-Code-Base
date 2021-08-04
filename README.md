@@ -2,6 +2,10 @@
 The Private Code base that has been used for PSRV32 Processor.
 
 
+## Note or Standard Points for All Stages
+- Reads are always Combinational, Writes are sequential
+- Have  a common clock signal across all the modules with name **clk**
+
 ## Final Pipeline Control+Datapath
 ![image](https://user-images.githubusercontent.com/64090461/127973794-6788ecbb-c25b-4304-9fd5-c17138abe390.png)
 
