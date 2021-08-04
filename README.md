@@ -52,3 +52,8 @@ The same aboved processor extended to implement jump instructions as well
 - Exc-Data hazard : Should do forwading. 
 - ![image](https://user-images.githubusercontent.com/64090461/128115241-2dd09047-0854-41d2-83d1-a93461a66c5c.png)
 
+
+### Fowarding Condtions
+1. Forwarding the value from EX to othersubsequent cases
+
+![image](https://user-images.githubusercontent.com/64090461/128159051-666d96cb-695a-4822-8ec8-cbc05d9c132f.png)
