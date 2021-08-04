@@ -14,7 +14,7 @@ being read and highlight the left half when they are being written*
 ## 5-Stages of the Pipeline for a *load* instruction
 - In any stage of the pipeline the pipeline registers should hold the values of control signals and other data points required for that instruction in the current pipeline stage as well as required by the other stages of the pipeline. 
 - This becomes more evident in the case of *load* instructions, in earier cases we had the write register address decoded from decode register itself, till the full cycle exceution comes snd finally completes the write. But as we implement pipeline, the next instruction in decode stage will overwrite it's value and makes the earlier value to disapper, so when the WB stage of the ealrer intructions put data on the write data line the address isn't correct. So we need to pass on the Write register address along with other values passed from one stage to other till the WB stage and while we are updating the it, the address will be bought in from the MEM/WB pipleined register.
-- 
+
 1. ***Instruction fetch:*** The top portion of Figure 4.36 shows the instruction being read from memory using the address in the PC and then being placed in the IF/ID pipeline register.The PC address is incremented by 4 and then written back into the PC to be ready for the next clock cycle. This incremented address is also saved in the IF/ID pipeline register in case it is needed later for an instruction,such as beq. The computer cannot know which type of instruction is being fetched, so it must prepare for any instruction, passing potentially needed information down the pipeline.
 
 2. ***Instruction decode and register file read:*** The bottom portion of Figure 4.36 shows the instruction portion of the IF/ID pipeline register supplying the 16-bit immediate field, which is sign-extended to 32 bits, and the register numbers to read the two registers. All three values are stored in the ID/EX pipeline register, along with the incremented PC address. We again transfer everything that might be needed by any instruction during a later clock cycle.
@@ -35,6 +35,9 @@ The figure below shows the description of a simple processor (operates only on R
 
 The same aboved processor extended to implement jump instructions as well
 ![image](https://user-images.githubusercontent.com/64090461/128113806-cc7db23b-0b7f-466d-95c0-0c3280e972bb.png)
+
+### Pipeline+Datapath only for a load instruction
+![image](https://user-images.githubusercontent.com/64090461/128129210-965a0cc1-7e60-4204-8f7f-7043cf1aa4ab.png)
 
 ### Hazard Detection unit
 - Should be able to manage all the hazards, i.e either forward or stall accordingly.
