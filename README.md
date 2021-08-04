@@ -28,9 +28,11 @@ ID/EX pipeline register and adds them using the ALU. That sum is placed in the E
 ### Final Pipeline Control+Datapath
 ![image](https://user-images.githubusercontent.com/64090461/127973794-6788ecbb-c25b-4304-9fd5-c17138abe390.png)
 
-
 The below figure depicts the control unit of the pipelined processor
 !![image](https://user-images.githubusercontent.com/64090461/128132304-a5c9bb69-fdd9-4718-a1ff-cb36cae16c5c.png)
+
+The hence-forth figure shows the complete description of the 5-Stage pipelined processor alongwith the required control signals pertaining to each stage of the pipeline.
+![image](https://user-images.githubusercontent.com/64090461/128133281-7fe4500e-331a-4585-94c4-5ee8121e3bab.png)
 
 ### Single cycle Processor Control+Datapath
 The figure below shows the description of a simple processor (operates only on R-type, Load/Store and Branch instructions) design without pipelining for RV32I based implementation without pipelining.
