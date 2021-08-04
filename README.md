@@ -55,6 +55,23 @@ The same aboved processor extended to implement jump instructions as well
 
 
 ### Fowarding Condtions
-1. Forwarding the value from EX to othersubsequent cases
+1. EX Hazard : Forwarding the value from EX to other subsequent cases
+![image](https://user-images.githubusercontent.com/64090461/128159688-72794828-5d9c-49e8-9e5f-70ac0bdc7a1c.png)
 
-![image](https://user-images.githubusercontent.com/64090461/128159051-666d96cb-695a-4822-8ec8-cbc05d9c132f.png)
+![image](https://user-images.githubusercontent.com/64090461/128159864-4e9ecd90-259a-48e5-af29-89bec75b7122.png)
+
+![image](https://user-images.githubusercontent.com/64090461/128159899-896ae9a1-acb9-460f-9fb4-b4d2c64178a0.png)
+
+2. MEM Hazard
+![image](https://user-images.githubusercontent.com/64090461/128160011-478033de-d84e-4134-ac97-2abd5c81eba8.png)
+
+![image](https://user-images.githubusercontent.com/64090461/128160051-5411e045-6372-4f1a-9b97-f1c035fb5663.png)
+
+### Hazard's Conditions
+1. When R-type occurs following a load : in this case the pipeline must stall for one cycle
+
+![image](https://user-images.githubusercontent.com/64090461/128160362-069001d8-214d-4fc6-82db-b6012806ff1f.png)
+
+Also in this case when an hazard is being detected then all the pipelined registers must be flushed.
+
+![image](https://user-images.githubusercontent.com/64090461/128160581-775261c3-7723-4a66-a391-1e4a1e86c617.png)
