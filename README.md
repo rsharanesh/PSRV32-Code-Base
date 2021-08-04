@@ -46,6 +46,7 @@ The same aboved processor extended to implement jump instructions as well
 
 ### Hazard Detection unit
 - Should be able to manage all the hazards, i.e either forward or stall accordingly.
+
 - Load-Data hazard : Should Stall for one cycle. 
 -![image](https://user-images.githubusercontent.com/64090461/128115271-d7c425bf-547c-4f72-84c9-3040164a87cb.png)
 
