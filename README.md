@@ -1,7 +1,6 @@
 # PSRV32-Code-Base
 The Private Code base that has been used for PSRV32 Processor.
 
-
 ## Note or Standard Points for All Stages
 - Reads are always Combinational, Writes are sequential
 - Have a common clock signal across all the modules with name **clk**
@@ -28,6 +27,10 @@ ID/EX pipeline register and adds them using the ALU. That sum is placed in the E
 
 ### Final Pipeline Control+Datapath
 ![image](https://user-images.githubusercontent.com/64090461/127973794-6788ecbb-c25b-4304-9fd5-c17138abe390.png)
+
+
+The below figure depicts the control unit of the pipelined processor
+!![image](https://user-images.githubusercontent.com/64090461/128132304-a5c9bb69-fdd9-4718-a1ff-cb36cae16c5c.png)
 
 ### Single cycle Processor Control+Datapath
 The figure below shows the description of a simple processor (operates only on R-type, Load/Store and Branch instructions) design without pipelining for RV32I based implementation without pipelining.
