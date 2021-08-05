@@ -17,10 +17,10 @@ being read and highlight the left half when they are being written*
 * B-type: conditional branches, a variation of S-type            
 * U-type: long immediates          
 * J-type: unconditional jumps, a variation of U-type        
-* 
+#### Notes
 - RV32I (consisting of 32 Registers) has X0 Register hardwired to constant 0 and X1-X31 General Purpose Registers. All Registers are 32 bits wide.
 - RV32I is a load-store architecture. This means that only load and store instructions access memory; arithmetic operations use only the registers. 
-- 
+
 
 ## Designing the Pipeline flow
 - There are registers at the junction between any two stages of the pipeline so that the data from one stage of the pipeline reaches the next stage.
