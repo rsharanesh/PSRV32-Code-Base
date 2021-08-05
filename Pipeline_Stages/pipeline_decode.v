@@ -59,3 +59,5 @@ assign rd_o = rd_reg;
 assign read_data1_o = data_mem[rs1_reg]; // set it based on reg now... may be change based on output
 assign read_data2_o = data_mem[rs2_reg]; // set it based on reg now... may be change based on output
 assign offset_o = offset_reg;
+
+endmodule
