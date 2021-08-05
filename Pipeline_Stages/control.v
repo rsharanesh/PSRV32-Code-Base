@@ -3,6 +3,10 @@ module control (
 
     input [31:0] instruction_i, //instruction input
 
+    output [4:0] rs1_o, //source operand-1 address
+    output [4:0] rs2_o, //source operand-2 address
+    output [4:0] rd_o, //destination operand address
+
     output alusrc_o; //alu source
     output mem_to_reg_o; //mem2reg
     output reg_write_o; //reg write (enables reg for writings)
@@ -24,6 +28,10 @@ reg isbranchtaken_reg; //branch taken register
 reg jump_reg; //jump register
 reg [5:0] alu_op_reg; //alu op code register
 
+reg [4:0] rs1_reg; //source operand-1 register
+reg [4:0] rs2_reg; //source operand-2 register
+reg [4:0] rd_reg; //destination operand register
+
 wire opcode = instruction_i[6:0];
 
 localparam RXX = 7'b0110011;
@@ -37,7 +45,19 @@ localparam LXX = 7'b0000011;
 localparam SXX = 7'b0100011;
 
 always @(instruction_i) begin
-
+    case (instruction_i[6:0])
+        LUI,
+        AUIPC: begin
+            isbranchtaken_reg = 1'b0;
+            jump_reg = 1'b0;
+            mem_to_reg_reg = 1'b0;
+            alu_op_reg = 6'd0;
+            rs1_reg = 5'd0;
+            rs2_reg = 5'd0;
+            rd_reg = instruction_i[11:7];
+            mem_to_reg_reg = 1'b1;
+            reg_write_reg = 1'b1;
+        end
 end
 
 endmodule
