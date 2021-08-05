@@ -24,8 +24,20 @@ reg isbranchtaken_reg; //branch taken register
 reg jump_reg; //jump register
 reg [1:0] alu_op_reg; //alu op code register
 
+wire opcode = instruction_i[6:0];
+
+localparam RXX = 7'b0110011;
+localparam IXX = 7'b0010011;
+localparam BXX = 7'b1100011;
+localparam LUI = 7'b0110111;
+localparam AUIPC = 7'b0010111;
+localparam JAL = 7'b1101111;
+localparam JALR = 7'b1100111;
+localparam LXX = 7'b0000011;
+localparam SXX = 7'b0100011;
+
 always @(posedge clk_i) begin
-    
+
 end
 
 endmodule
