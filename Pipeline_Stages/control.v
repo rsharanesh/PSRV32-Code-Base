@@ -11,7 +11,7 @@ module control (
     output mem_write_o; //mem write
     output isbranchtaken_o; //branch taken
     output jump_o; // determines if jump is the instruction or not
-    output [1:0] alu_op_o; //alu op code 
+    output [5:0] alu_op_o; //alu op code 
 );
 
 reg alusrc_reg; //alu source register
@@ -22,7 +22,7 @@ reg mem_read_reg; //mem read register
 reg mem_write_reg; //mem write register
 reg isbranchtaken_reg; //branch taken register
 reg jump_reg; //jump register
-reg [1:0] alu_op_reg; //alu op code register
+reg [5:0] alu_op_reg; //alu op code register
 
 wire opcode = instruction_i[6:0];
 
@@ -36,7 +36,7 @@ localparam JALR = 7'b1100111;
 localparam LXX = 7'b0000011;
 localparam SXX = 7'b0100011;
 
-always @(posedge clk_i) begin
+always @(instruction_i) begin
 
 end
 

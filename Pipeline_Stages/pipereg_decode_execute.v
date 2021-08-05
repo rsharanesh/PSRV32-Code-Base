@@ -13,7 +13,7 @@ module decode_exceute_register (
     input mem_write_i; //mem write
     input isbranchtaken_i; //branch taken
     input jump_i; // determines if jump is the instruction or not
-    input [1:0] alu_op_i; //alu op code 
+    input [5:0] alu_op_i; //alu op code 
 
     input [4:0] rs1_i, //rs1 field
     input [4:0] rs2_i, //rs2 field
@@ -33,7 +33,7 @@ module decode_exceute_register (
     input mem_write_o; //mem write
     input isbranchtaken_o; //branch taken
     input jump_o; // determines if jump is the instruction or not
-    input [1:0] alu_op_o; //alu op code 
+    input [5:0] alu_op_o; //alu op code 
 
     output [4:0] de_rs1_o, //rs1 field
     output [4:0] de_rs2_o, //rs2 field
@@ -62,7 +62,7 @@ reg decode_exceute_mem_read_reg; //mem read
 reg decode_exceute_mem_write_reg; //mem write
 reg decode_exceute_isbranchtaken_reg; //branch taken
 reg decode_exceute_jump_reg; // determines if jump is the instruction or not
-reg [1:0] decode_exceute_alu_op_reg; //alu op code 
+reg [5:0] decode_exceute_alu_op_reg; //alu op code 
 
 always @(*) begin
     decode_exceute_opcode_reg <= opcode_i;
