@@ -1,5 +1,6 @@
 module control (
     input clk_i, //clock input
+    input reset_i, //reset input
 
     input [31:0] instruction_i, //instruction input
 
@@ -85,19 +86,20 @@ always @(instruction_i) begin
             jump_reg = 1'b0;
             mem_to_reg_reg = 1'b0;
             case(instruction_i[14:12])
-                3'd0,   // ADDI
-                3'd2,   // SLTI
-                3'd3,   // SLTU
-                3'd4,   // XORI
-                3'd6,   // ORI
-                3'd7:   // ANDI
-                    aluOp_r = {3'd0, idata[14:12]};
-                3'd1:   // SLLI
-                    aluOp_r = {3'd0, idata[14:12]};
-                3'd5:   // SRLI or SRAI
-                    aluOp_r = (idata[30]) ? 6'd8:6'd5;
+                3'd0:   // BEQ
+                    alu_op_reg = 6'd9;
+                3'd1:   // BNE
+                    alu_op_reg = 6'd9;
+                3'd4:   // BLT
+                    alu_op_reg = 6'd2;
+                3'd5:   // BGE
+                    alu_op_reg = 6'd2;
+                3'd6:   // BLTU
+                    alu_op_reg = 6'd3;
+                3'd7:   // BGEU
+                    alu_op_reg = 6'd3;
                 default:
-                    aluOp_r = {3'd0, idata[14:12]};
+                    alu_op_reg = 6'd15;
             endcase
             rs1_reg = instruction_i[19:15];
             rs2_reg = instruction_i[24:20];
@@ -105,6 +107,100 @@ always @(instruction_i) begin
             mem_to_reg_reg = 1'b0;
             reg_write_reg = 1'b0;
         end
+        LXX: begin
+            isbranchtaken_reg = 1'b0;
+            jump_reg = 1'b0;
+            mem_to_reg_reg = 1'b1;
+            alu_op_reg = 6'd0;
+            rs1_reg = instruction_i[19:15];
+            rs2_reg = 5'd0;
+            rd_reg = instruction_i[11:7];
+            mem_to_reg_reg = 1'b1;
+            reg_write_reg = 1'b1;
+        end
+        SXX: begin
+            isbranchtaken_reg = 1'b0;
+            jump_reg = 1'b0;
+            mem_to_reg_reg = 1'b0;
+            alu_op_reg = 6'd0;
+            rs1_reg = instruction_i[19:15];
+            rs2_reg = instruction_i[24:20];
+            rd_reg = 5'd0;
+            mem_to_reg_reg = 1'b1;
+            reg_write_reg = 1'b0;
+        end
+        IXX: begin
+            isbranchtaken_reg = 1'b0;
+            jump_reg = 1'b0;
+            mem_to_reg_reg = 1'b0;
+            case (instruction_i[14:12])
+                3'd0,   // ADDI
+                3'd2,   // SLTI
+                3'd3,   // SLTU
+                3'd4,   // XORI
+                3'd6,   // ORI
+                3'd7:   // ANDI
+                    alu_op_reg = {3'd0, instruction_i[14:12]};
+                3'd1:   // SLLI
+                    alu_op_reg = {3'd0, instruction_i[14:12]};
+                3'd5:   // SRLI or SRAI
+                    alu_op_reg = (instruction_i[30]) ? 6'd8:6'd5;
+                default:
+                    alu_op_reg = {3'd0, instruction_i[14:12]};
+            endcase
+            rs1_reg = instruction_i[19:15];
+            rs2_reg = 5'd0;
+            rd_reg = instruction_i[11:7];
+            mem_to_reg_reg = 1'b1;
+            reg_write_reg = 1'b1;
+        end
+        RXX: begin
+            isbranchtaken_reg = 1'b0;
+            jump_reg = 1'b0;
+            mem_to_reg_reg = 1'b0;
+            case(instruction_i[14:12])
+                3'd1,   // SLL
+                3'd2,   // SLT
+                3'd3,   // SLTU
+                3'd4,   // XOR
+                3'd6,   // OR
+                3'd7:   // AND
+                    alu_op = {3'd0, instruction_i[14:12]};
+                3'd0:   // ADD or SUB
+                    alu_op = (instruction_i[30]) ? 6'd9:6'd0;
+                3'd5:   // SRL or SRA
+                    alu_op = (instruction_i[30]) ? 6'd8:6'd5;
+                default:
+                    alu_op = {3'd0, instruction_i[14:12]};
+            endcase
+            rs1_reg = instruction_i[19:15];
+            rs2_reg = instruction_i[24:20];
+            rd_reg = instruction_i[11:7];
+            mem_to_reg_reg = 1'b0;
+            reg_write_reg = 1'b1;
+        end
+        default: begin
+            isbranchtaken_reg = 1'b0;
+            jump_reg = 1'b0;
+            mem_to_reg_reg = 1'b0;
+            alu_op_reg = 6'd0;
+            rs1_reg = 5'd0;
+            rs2_reg = 5'd0;
+            rd_reg = 5'd0;
+            mem_to_reg_reg = 1'b0;
+            reg_write_reg = 1'b0;
+        end
+    endcase
 end
+
+assign isbranchtaken_o = ~reset_i & isbranchtaken_reg;
+assign jump_o = ~reset_i & jump_reg;
+assign mem_to_reg_o = ~reset_i & mem_to_reg_reg;
+assign alu_op_o = ~reset_i & alu_op_reg;
+assign rs1_o = ~reset_i & rs1_reg;
+assign rs2_o = ~reset_i & rs2_reg;
+assign rd_o = ~reset_i & rd_reg;
+assign regOrImm = ~reset_i & regOrImm_r;
+assign reg_write_o = ~reset_i & reg_write_reg;
 
 endmodule
