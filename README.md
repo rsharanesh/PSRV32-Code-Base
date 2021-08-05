@@ -7,6 +7,9 @@ The Private Code base that has been used for PSRV32 Processor.
 - In all the flowcharts attached below the following convention is being held: *we highlight the right half of registers or memory when they are
 being read and highlight the left half when they are being written*
 
+## Instruction Structure
+![Istrs](https://user-images.githubusercontent.com/64090140/128318173-e354d16f-8bcb-4891-849f-ed9240e2be84.png)
+[Reference](https://passlab.github.io/CSCE513/notes/lecture04_RISCV_ISA.pdf)
 ## Designing the Pipeline flow
 - There are registers at the junction between any two stages of the pipeline so that the data from one stage of the pipeline reaches the next stage.
 
