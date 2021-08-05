@@ -24,5 +24,8 @@ reg isbranchtaken_reg; //branch taken register
 reg jump_reg; //jump register
 reg [1:0] alu_op_reg; //alu op code register
 
+always @(posedge clk_i) begin
+    
+end
 
 endmodule
