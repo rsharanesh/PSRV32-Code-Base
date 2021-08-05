@@ -13,7 +13,16 @@ module pipeline_decode(
     output [4:0] rs1_o, //source operand-1 address
     output [4:0] rs2_o, //source operand-2 address
     output [4:0] rd_o, //destination operand address
-    output [31:0] offdet_o, //offset value after being sign extended
-
+    output [31:0] offset_o, //offset value after being sign extended
 )
+
+// -----------------
+// Registers&Wires
+// -----------------
+
+reg [4:0] rs1_reg; //source operand-1 address register
+reg [4:0] rs2_reg; //source operand-2 address register
+reg [4:0] rd_reg; //destination operand address register
+reg [31:0] offset_bef_ext_reg; //offset value before being sign extended
+
 
