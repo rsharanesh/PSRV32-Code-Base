@@ -7,9 +7,21 @@ The Private Code base that has been used for PSRV32 Processor.
 - In all the flowcharts attached below the following convention is being held: *we highlight the right half of registers or memory when they are
 being read and highlight the left half when they are being written*
 
-## Instruction Structure
+# Instruction Set
+## Formats
 ![Istrs](https://user-images.githubusercontent.com/64090140/128318173-e354d16f-8bcb-4891-849f-ed9240e2be84.png)
 [Reference](https://passlab.github.io/CSCE513/notes/lecture04_RISCV_ISA.pdf)
+* R-type: register-register        
+* I-type: short immediates and loads            
+* S-type: stores           
+* B-type: conditional branches, a variation of S-type            
+* U-type: long immediates          
+* J-type: unconditional jumps, a variation of U-type        
+* 
+- RV32I (consisting of 32 Registers) has X0 Register hardwired to constant 0 and X1-X31 General Purpose Registers. All Registers are 32 bits wide.
+- RV32I is a load-store architecture. This means that only load and store instructions access memory; arithmetic operations use only the registers. 
+- 
+
 ## Designing the Pipeline flow
 - There are registers at the junction between any two stages of the pipeline so that the data from one stage of the pipeline reaches the next stage.
 
