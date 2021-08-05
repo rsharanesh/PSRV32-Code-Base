@@ -2,11 +2,11 @@ module pipeline_fetch(
     input clk_i, //Clock-input
     input reset_i, //Reset-input
 
-    input pc_src; //PC Source input
-    input [31:0] pc_new_i; //Updated Program Counter from EX stage
+    input isbranchtaken_i; //PC Source input
+    input [31:0] pc_branch_i; //Updated Program Counter from EX stage for a branch instruction
 
     output [31:0] instruction_o; //The fetched instruction from the memory
-    output [31:0] pc_o; //Updated Program Counter
+    output [31:0] pcsrc_o; //Updated Program Counter
 )
 
 // -----------------
@@ -21,7 +21,10 @@ reg [31:0] instruction_o_reg; //Instruction register for output
 // Reading from IMEM
 // -------------------------
 
-initial begin $readmemh("imem_ini.mem",m); end
+initial begin 
+    $readmemh("imem_ini.mem",m); 
+end
+
 assign instruction_data = i_mem[pc_reg[31:2]];
 
 initial begin
@@ -37,8 +40,8 @@ always @(posedge clk_i) begin
         pc_reg <= 32'd0;
     end
     else begin
-        if(pc_src == 1'b1)begin
-            pc_reg <= pc_new_i;
+        if(isbranchtaken_i == 1'b1)begin
+            pc_reg <= pc_branch_i;
             instruction_o_reg <= i_mem[pc_reg];
         end
         else begin
@@ -48,7 +51,7 @@ always @(posedge clk_i) begin
     end
 end
 
-assign pc_o = pc_reg;
+assign pcsrc_o = pc_reg;
 assign instruction_o = instruction_o_reg;
 
 endmodule
