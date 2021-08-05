@@ -14,5 +14,15 @@ module control (
     output [1:0] alu_op_o; //alu op code 
 );
 
+reg alusrc_reg; //alu source register
+reg mem_to_reg_reg; //mem2reg register
+reg reg_write_reg; //reg write register
+reg reg_dest_reg; //register destination register
+reg mem_read_reg; //mem read register
+reg mem_write_reg; //mem write register
+reg isbranchtaken_reg; //branch taken register
+reg jump_reg; //jump register
+reg [1:0] alu_op_reg; //alu op code register
+
 
 endmodule
