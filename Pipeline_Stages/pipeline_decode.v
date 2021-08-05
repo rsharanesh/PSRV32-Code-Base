@@ -8,6 +8,9 @@ module pipeline_decode(
     input [31:0] write_data_i, //Data to be written in the write register
     input reg_write_i, //Control signal that determines if it is to write in the register or not
 
+    output [6:0] opcode_o, //Opcode of the instruction
+    output [2:0] funct3_o, //Funct3 of the instruction
+
     output [31:0] read_data1_o, //data read from register-1
     output [31:0] read_data2_o, //data read from register-2
     output [4:0] rs1_o, //source operand-1 address
@@ -19,6 +22,9 @@ module pipeline_decode(
 // -----------------
 // Registers&Wires
 // -----------------
+
+reg [6:0] opcode_reg; //Opcode of the instruction register
+reg [2:0] funct3_reg; //Funct3 of the instruction register
 
 reg [4:0] rs1_reg; //source operand-1 address register
 reg [4:0] rs2_reg; //source operand-2 address register
@@ -32,6 +38,8 @@ reg [31:0] data_mem[0:31]; //data memory
 // Peforming the required functionalities
 // -------------
 always @(posedge clk ) begin
+    opcode_reg <= instruction_i[6:0];
+    funct3_reg <= instruction_i[14:12];
     rs1_reg <= instruction_i[24:20];
     rs2_reg <= instruction_i[19:15];
     rd_reg <= instruction_i[11:7];
@@ -43,6 +51,8 @@ always @(posedge clk ) begin
     end
 end
 
+assign opcode_o = opcode_reg;
+assign funct3_o = funct3_reg;
 assign rs1_o = rs1_reg;
 assign rs2_o = rs2_reg;
 assign rd_o = rd_reg;
