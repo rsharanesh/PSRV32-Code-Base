@@ -10,6 +10,7 @@ module control (
     output mem_read_o; //mem read
     output mem_write_o; //mem write
     output isbranchtaken_o; //branch taken
+    output jump_o; // determines if jump is the instruction or not
     output [1:0] alu_op_o; //alu op code 
 );
 
