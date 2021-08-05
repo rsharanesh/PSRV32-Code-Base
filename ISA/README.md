@@ -1,5 +1,6 @@
 # RISCV 32I ISA
 # Instruction Set
+[Cheatsheet](https://metalcode.eu/2019-12-06-rv32i.html)
 ## Instruction Types
 ## R-Type:
 <img src="https://user-images.githubusercontent.com/64090140/128345216-d2e45938-e469-4e6f-a6e7-376a4aa1a532.png" width="600" height="400">
