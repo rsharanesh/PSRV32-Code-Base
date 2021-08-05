@@ -2,7 +2,8 @@
 # Instruction Set
 ## Instruction Types
 ## R-Type:
-![r](https://user-images.githubusercontent.com/64090140/128345216-d2e45938-e469-4e6f-a6e7-376a4aa1a532.png = 100x100)
+<img src="https://user-images.githubusercontent.com/64090140/128345216-d2e45938-e469-4e6f-a6e7-376a4aa1a532.png" width="100" height="100">
+![r](https://user-images.githubusercontent.com/64090140/128345216-d2e45938-e469-4e6f-a6e7-376a4aa1a532.png)
 ## Encoding:
 ![ren](https://user-images.githubusercontent.com/64090140/128345231-674f0973-8c7a-4900-8c3a-3d5885acef31.png)
 ## I-Type:
