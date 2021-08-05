@@ -23,6 +23,29 @@ module pipeline_decode(
 reg [4:0] rs1_reg; //source operand-1 address register
 reg [4:0] rs2_reg; //source operand-2 address register
 reg [4:0] rd_reg; //destination operand address register
-reg [31:0] offset_bef_ext_reg; //offset value before being sign extended
+reg [15:0] offset_reg; //offset value after being sign extended
+
+reg [31:0] data_mem[0:31]; //data memory
 
 
+// -------------
+// Peforming the required functionalities
+// -------------
+always @(posedge clk ) begin
+    rs1_reg <= instruction_i[24:20];
+    rs2_reg <= instruction_i[19:15];
+    rd_reg <= instruction_i[11:7];
+    if(instruction_i[6:0] == 7'b0100011) begin
+        offset_reg <= {{16{instruction_i[31]}},{instruction_i[31:25],instruction_i[11:7]}};
+    end
+    else begin
+        offset_reg <= {{16{instruction_i[31]}},instruction_i[31:20]};
+    end
+end
+
+assign rs1_o = rs1_reg;
+assign rs2_o = rs2_reg;
+assign rd_o = rd_reg;
+assign read_data1_o = data_mem[rs1_reg]; // set it based on reg now... may be change based on output
+assign read_data2_o = data_mem[rs2_reg]; // set it based on reg now... may be change based on output
+assign offset_o = offset_reg;
