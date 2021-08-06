@@ -2,12 +2,13 @@ module pipeline_fetch(
     input clk_i, //Clock-input
     input reset_i, //Reset-input
 
-    input isbranchtaken_i; //PC Source input
-    input [31:0] pc_branch_i; //Updated Program Counter from EX stage for a branch instruction
+    input isbranchtaken_i, //PC Source input
+    input [31:0] pc_branch_i, //Updated Program Counter from EX stage for a branch instruction
 
-    output [31:0] instruction_o; //The fetched instruction from the memory
-    output [31:0] pcsrc_o; //Updated Program Counter
-)
+    output [31:0] instruction_o, //The fetched instruction from the memory
+    output [31:0] pc_o, // Current program counter
+    output [31:0] pcsrc_o, //Updated Program Counter
+);
 
 // -----------------
 // Registers&Wires
@@ -47,6 +48,7 @@ always @(posedge clk_i) begin
 end
 
 assign pcsrc_o = pc_temp;
+assign pc_o = pc_reg;
 assign instruction_o = instruction_o_reg;
 
 endmodule

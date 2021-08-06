@@ -2,8 +2,8 @@ module pipeline_decode(
     input clk_i, //Clock-input
     
     input [31:0] instruction_i, //Instruction input
-    input [31:0] pcsrc_i, //Program counter 
-    
+    input [31:0] pcsrc_i, //Program counter after update
+
     input [4:0] write_addr_reg_i, // Address of the write register (Coming from WB)
     input [31:0] write_data_reg_i, //Data to be written in the write register (Coming from WB)
     input reg_write_i, //Control signal that determines if it is to write in the register or not
@@ -16,8 +16,8 @@ module pipeline_decode(
     output [4:0] rs1_o, //source operand-1 regitser address
     output [4:0] rs2_o, //source operand-2 register address
     output [4:0] rd_o, //destination operand address
-    output [31:0] offset_o, //offset value after being sign extended
-)
+    output [31:0] offset_o //offset value after being sign extended
+);
 
 // -----------------
 // Registers&Wires
