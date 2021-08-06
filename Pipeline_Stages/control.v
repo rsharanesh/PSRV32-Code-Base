@@ -4,6 +4,7 @@ module control (
 
     input [31:0] instruction_i, //instruction input
 
+    
     output alusrc1_o; //alu source1 (1:pc, 0:read_data1)
     output alusrc2_o; //alu source2 (1:immediate, 0:read_data2)
     output [1:0] dmem_to_reg_o; //mem2reg (00:mem2reg, 01:alu_result_2reg, 10:pcsrc, 11: offset)
@@ -97,10 +98,17 @@ always @(instruction_i) begin
             ///alu_op_reg = JALR;
         end
         BXX: begin
-            isbranchtaken_reg = 1'b1;
-            jump_reg = 1'b0;
-            dmem_to_reg_reg = 1'b0;
-            case(instruction_i[14:12])
+            alusrc1_reg = 1'b0;
+            alusrc2_reg = 1'b0;
+            dmem_to_reg_reg = 2'b00; 
+            reg_write_reg = 1'b0; 
+            reg_dest_reg = 1'b0; 
+            mem_read_reg = 1'b0; 
+            mem_write_reg = 1'b0; 
+            isbranchtaken_reg = 1'b1; 
+            jump_reg = 1'b0; 
+            ///alu_op_reg = JALR;
+            case (instruction_i[14:12])
                 3'd0:   // BEQ
                     alu_op_reg = 6'd9;
                 3'd1:   // BNE
@@ -116,42 +124,45 @@ always @(instruction_i) begin
                 default:
                     alu_op_reg = 6'd15;
             endcase
-            rs1_reg = instruction_i[19:15];
-            rs2_reg = instruction_i[24:20];
-            rd_reg = 5'd0;
-            alusrc_reg = 1'b0;
-            reg_write_reg = 1'b0;
         end
         LXX: begin
-            isbranchtaken_reg = 1'b0;
-            jump_reg = 1'b0;
-            dmem_to_reg_reg = 1'b1;
-            alu_op_reg = 6'd0;
-            rs1_reg = instruction_i[19:15];
-            rs2_reg = 5'd0;
-            rd_reg = instruction_i[11:7];
-            alusrc_reg = 1'b1;
-            reg_write_reg = 1'b1;
+            alusrc1_reg = 1'b0;
+            alusrc2_reg = 1'b1;
+            dmem_to_reg_reg = 2'b00; 
+            reg_write_reg = 1'b1; 
+            reg_dest_reg = 1'b0; 
+            mem_read_reg = 1'b1; 
+            mem_write_reg = 1'b0; 
+            isbranchtaken_reg = 1'b0; 
+            jump_reg = 1'b0; 
+            ///alu_op_reg = LXX;
         end
         SXX: begin
-            isbranchtaken_reg = 1'b0;
-            jump_reg = 1'b0;
-            dmem_to_reg_reg = 1'b0;
-            alu_op_reg = 6'd0;
-            rs1_reg = instruction_i[19:15];
-            rs2_reg = instruction_i[24:20];
-            rd_reg = 5'd0;
-            alusrc_reg = 1'b1;
-            reg_write_reg = 1'b0;
+            alusrc1_reg = 1'b0;
+            alusrc2_reg = 1'b1;
+            dmem_to_reg_reg = 2'b00; 
+            reg_write_reg = 1'b0; 
+            reg_dest_reg = 1'b0; 
+            mem_read_reg = 1'b0; 
+            mem_write_reg = 1'b1; 
+            isbranchtaken_reg = 1'b0; 
+            jump_reg = 1'b0; 
+            ///alu_op_reg = SXX;
         end
         IXX: begin
-            isbranchtaken_reg = 1'b0;
-            jump_reg = 1'b0;
-            dmem_to_reg_reg = 1'b0;
+            alusrc1_reg = 1'b0;
+            alusrc2_reg = 1'b1;
+            dmem_to_reg_reg = 2'b01; 
+            reg_write_reg = 1'b1; 
+            reg_dest_reg = 1'b0; 
+            mem_read_reg = 1'b0; 
+            mem_write_reg = 1'b0; 
+            isbranchtaken_reg = 1'b0; 
+            jump_reg = 1'b0; 
             case (instruction_i[14:12])
                 3'd0,   // ADDI
                 3'd2,   // SLTI
-                3'd3,   // SLTU
+                3'd3,   // SLTIU
                 3'd4,   // XORI
                 3'd6,   // ORI
                 3'd7:   // ANDI
@@ -163,11 +174,6 @@ always @(instruction_i) begin
                 default:
                     alu_op_reg = {3'd0, instruction_i[14:12]};
             endcase
-            rs1_reg = instruction_i[19:15];
-            rs2_reg = 5'd0;
-            rd_reg = instruction_i[11:7];
-            alusrc_reg = 1'b1;
-            reg_write_reg = 1'b1;
         end
         RXX: begin
             isbranchtaken_reg = 1'b0;
