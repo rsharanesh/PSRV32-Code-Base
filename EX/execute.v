@@ -17,7 +17,8 @@ module execute(
   input alusrc1_i,
   input alusrc2_i, // CONTROL SIGNAL TO SELECT OP2
   input reg_dst_i, // CONTROL SIGNAL TO SELECT DESTINATION REGISTER
-  output isbranchtaken_i, // CONTROL SIGNAL FOR
+  input isbranchtaken_i, // CONTROL SIGNAL FOR WHETHER THE BRANCH IS TAKEN OR NOT
+  input jump_i,
   
   output alu_result_o,  // ALU RESULT 
   output read_data2_o,  // DATA READ FROM REGISTER SOURCE 2 IS PASSED TO MEM
@@ -31,7 +32,7 @@ module execute(
   assign op1 = alusrc1_i ? pc_i : read_data1_i;
   assign op2 = alusrc2_i ? offset_i : read_data2_i;
   
-  assign pc_ifbranch = (isbranchtaken_reg || ) ? 
+  assign pc_ifbranch = (isbranchtaken_i || jump_i) 
     
     always @(*)
       begin
@@ -50,7 +51,7 @@ module execute(
       
       
       
-  alu alu_inst(.op1(op1), .op2(op2), .aluop(aluop_i), .alu_result(alu_result_r));
+  alu alu_inst(.op1_i(op1), .op2_i(op2), .aluop_i(aluop_i), .alu_result_o(alu_result_r));
       
       
       
