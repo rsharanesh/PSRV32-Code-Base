@@ -13,9 +13,9 @@ module execute(
   input aluop_i,  // ALU OPCODE
   input offset_i, // IMMEDIATE/OFFSET
   
-  input alusrc, // CONTROL SIGNAL TO SELECT OP2
-  input regdst, // CONTROL SIGNAL TO SELECT DESTINATION REGISTER
-  output isbeq, // CONTROL SIGNAL FOR BEQ AND SIMILAR INSTRUCTIONS
+  input alusrc_reg, // CONTROL SIGNAL TO SELECT OP2
+  input reg_dst_reg, // CONTROL SIGNAL TO SELECT DESTINATION REGISTER
+  output isbranchtaken_reg, // CONTROL SIGNAL FOR
   
   output alu_result_o,  // ALU RESULT 
   output read_data2_o,  // DATA READ FROM REGISTER SOURCE 2 IS PASSED TO MEM
@@ -26,6 +26,14 @@ module execute(
   reg [31:0] op1, op2;
   reg [31:0] alu_result_r;
   
+  assign op2 = alusrc_reg ? read_data2_i : offset_i;
+  assign isbranchtaken_reg = alu_result_o : 1'b0 : 1'b1;
+  assign pc_ifbranch = (isbranchtaken_reg || ) ? 
+    
+    always @(*)
+      begin
+        
+  
   always(@posedge clk_i)
     begin
       if(reset_i)
@@ -35,7 +43,10 @@ module execute(
           read_data2_o <= 'b0;
           pc_ifbranch <= 'b0;
         end
-      else begin 
+    else begin
+      
+      
+      
         
           
           
