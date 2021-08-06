@@ -4,8 +4,9 @@ module control (
 
     input [31:0] instruction_i, //instruction input
 
-    output alusrc_o; //alu source (1:immediate, 0:read_data2)
-    output dmem_to_reg_o; //mem2reg (1:mem2reg, 0:alu_result_2reg)
+    output alusrc1_o; //alu source1 (1:pc, 0:read_data1)
+    output alusrc2_o; //alu source2 (1:immediate, 0:read_data2)
+    output [1:0] dmem_to_reg_o; //mem2reg (00:mem2reg, 01:alu_result_2reg, 10:pcsrc, 11: offset)
     output reg_write_o; //reg write (enables reg for writing)
     output reg_dest_o; //register destination (1:rs2, 0:rd) (selects destination register)
     output mem_read_o; //mem read (enables mem read)
@@ -18,9 +19,9 @@ module control (
 // ---------------
 // Registers and Wires
 // ---------------
-
-reg alusrc_reg; //alu source register (1:immediate, 0:read_data2)
-reg dmem_to_reg_reg; //mem2reg register (1:mem2reg, 0:alu_result_2reg) (at the last stage to select for the write to reg file or not)
+reg alusrc1_reg; //alu source1 register (1:pc, 0:read_data1)
+reg alusrc2_reg; //alu source2 register (1:immediate, 0:read_data2)
+reg [1:0] dmem_to_reg_reg; //mem2reg register (00:mem2reg, 01:alu_result_2reg, 10:pcsrc), 11: offset)
 reg reg_write_reg; //reg write register (register write control signal)
 reg reg_dest_reg; //**** register destination (1:rs2, 0:rd) (selects destination register)
 reg mem_read_reg; //**** mem read register (used in mem stage)
@@ -28,8 +29,6 @@ reg mem_write_reg; //*** mem write register (used in mem stage)
 reg isbranchtaken_reg; //branch taken register  
 reg jump_reg; //jump register 
 reg [5:0] alu_op_reg; //alu op code register
-
-wire opcode = instruction_i[6:0];
 
 // -----------------
 // Local parameters for denoting the instruction type
@@ -49,39 +48,53 @@ localparam SXX = 7'b0100011; // Store type
 // -----------------
 always @(instruction_i) begin
     case (instruction_i[6:0])
-        LUI,
+        LUI: begin
+            alusrc1_reg = 1'b0; 
+            alusrc2_reg = 1'b0; 
+            dmem_to_reg_reg = 2'b11; 
+            reg_write_reg = 1'b1; 
+            reg_dest_reg = 1'b0; 
+            mem_read_reg = 1'b0; 
+            mem_write_reg = 1'b0; 
+            isbranchtaken_reg = 1'b0; 
+            jump_reg = 1'b0; 
+            ///alu_op_reg = LUI;
+        end
         AUIPC: begin
-            isbranchtaken_reg = 1'b0;
-            jump_reg = 1'b0;
-            dmem_to_reg_reg = 1'b0;
-            alu_op_reg = 6'd0;
-            rs1_reg = 5'd0;
-            rs2_reg = 5'd0;
-            rd_reg = instruction_i[11:7];
-            alusrc_reg = 1'b1;
-            reg_write_reg = 1'b1;
+            alusrc1_reg = 1'b1;
+            alusrc2_reg = 1'b1;
+            dmem_to_reg_reg = 1'b01; 
+            reg_write_reg = 1'b1; 
+            reg_dest_reg = 1'b0; 
+            mem_read_reg = 1'b0; 
+            mem_write_reg = 1'b0; 
+            isbranchtaken_reg = 1'b0; 
+            jump_reg = 1'b0; 
+            ///alu_op_reg = AUIPC;
         end
         JAL: begin
-            isbranchtaken_reg = 1'b0;
-            jump_reg = 1'b1;
-            dmem_to_reg_reg = 1'b0;
-            alu_op_reg = 6'd0;
-            rs1_reg = 5'd0;
-            rs2_reg = 5'd0;
-            rd_reg = instruction_i[11:7];
-            dmem_to_reg_reg = 1'b0;
-            reg_write_reg = 1'b1;
+            alusrc1_reg = 1'b1;
+            alusrc2_reg = 1'b1;
+            dmem_to_reg_reg = 2'b10; 
+            reg_write_reg = 1'b1; 
+            reg_dest_reg = 1'b0; 
+            mem_read_reg = 1'b0; 
+            mem_write_reg = 1'b0; 
+            isbranchtaken_reg = 1'b0; 
+            jump_reg = 1'b1; 
+            ///alu_op_reg = JAL;
         end
         JALR: begin
-            isbranchtaken_reg = 1'b0;
-            jump_reg = 1'b1;
-            dmem_to_reg_reg = 1'b0;
-            alu_op_reg = 6'd0;
-            rs1_reg = instruction_i[19:15];
-            rs2_reg = 5'd0;
-            rd_reg = instruction_i[11:7];
-            alusrc_reg = 1'b0;
-            reg_write_reg = 1'b1;
+            alusrc1_reg = 1'b0;
+            alusrc2_reg = 1'b1;
+            dmem_to_reg_reg = 2'b10; 
+            reg_write_reg = 1'b1; 
+            reg_dest_reg = 1'b0; 
+            mem_read_reg = 1'b0; 
+            mem_write_reg = 1'b0; 
+            isbranchtaken_reg = 1'b0; 
+            jump_reg = 1'b1; 
+            ///alu_op_reg = JALR;
         end
         BXX: begin
             isbranchtaken_reg = 1'b1;
@@ -198,8 +211,6 @@ end
 // --------------
 // Final Assignments to output the control signals
 // --------------
-assign opcode_o = opcode_reg;
-assign funct3_o = funct3_reg;
 assign isbranchtaken_o = ~reset_i & isbranchtaken_reg;
 assign jump_o = ~reset_i & jump_reg;
 assign dmem_to_reg_o = ~reset_i & dmem_to_reg_reg;
