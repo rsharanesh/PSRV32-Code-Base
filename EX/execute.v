@@ -2,6 +2,7 @@ module execute(
   input clk_i,  // CLOCK
   input reset_i,  // RESET
   
+  input pc_i, // PC
   input pcsrc_i,  // PC+4
   input instruction_i,  // INSTRUCTION
   
@@ -13,9 +14,10 @@ module execute(
   input aluop_i,  // ALU OPCODE
   input offset_i, // IMMEDIATE/OFFSET
   
-  input alusrc_reg, // CONTROL SIGNAL TO SELECT OP2
-  input reg_dst_reg, // CONTROL SIGNAL TO SELECT DESTINATION REGISTER
-  output isbranchtaken_reg, // CONTROL SIGNAL FOR
+  input alusrc1_i,
+  input alusrc2_i, // CONTROL SIGNAL TO SELECT OP2
+  input reg_dst_i, // CONTROL SIGNAL TO SELECT DESTINATION REGISTER
+  output isbranchtaken_i, // CONTROL SIGNAL FOR
   
   output alu_result_o,  // ALU RESULT 
   output read_data2_o,  // DATA READ FROM REGISTER SOURCE 2 IS PASSED TO MEM
@@ -26,8 +28,9 @@ module execute(
   reg [31:0] op1, op2;
   reg [31:0] alu_result_r;
   
-  assign op2 = alusrc_reg ? read_data2_i : offset_i;
-  assign isbranchtaken_reg = alu_result_o : 1'b0 : 1'b1;
+  assign op1 = alusrc1_i ? pc_i : read_data1_i;
+  assign op2 = alusrc2_i ? offset_i : read_data2_i;
+  
   assign pc_ifbranch = (isbranchtaken_reg || ) ? 
     
     always @(*)
