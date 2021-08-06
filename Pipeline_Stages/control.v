@@ -176,9 +176,15 @@ always @(instruction_i) begin
             endcase
         end
         RXX: begin
-            isbranchtaken_reg = 1'b0;
-            jump_reg = 1'b0;
-            dmem_to_reg_reg = 1'b0;
+            alusrc1_reg = 1'b0;
+            alusrc2_reg = 1'b0;
+            dmem_to_reg_reg = 2'b01; 
+            reg_write_reg = 1'b1; 
+            reg_dest_reg = 1'b0; 
+            mem_read_reg = 1'b0; 
+            mem_write_reg = 1'b0; 
+            isbranchtaken_reg = 1'b0; 
+            jump_reg = 1'b0; 
             case(instruction_i[14:12])
                 3'd1,   // SLL
                 3'd2,   // SLT
@@ -186,30 +192,25 @@ always @(instruction_i) begin
                 3'd4,   // XOR
                 3'd6,   // OR
                 3'd7:   // AND
-                    alu_op = {3'd0, instruction_i[14:12]};
+                    alu_op_reg = {3'd0, instruction_i[14:12]};
                 3'd0:   // ADD or SUB
-                    alu_op = (instruction_i[30]) ? 6'd9:6'd0;
+                    alu_op_reg = (instruction_i[30]) ? 6'd9:6'd0;
                 3'd5:   // SRL or SRA
-                    alu_op = (instruction_i[30]) ? 6'd8:6'd5;
+                    alu_op_reg = (instruction_i[30]) ? 6'd8:6'd5;
                 default:
-                    alu_op = {3'd0, instruction_i[14:12]};
+                    alu_op_reg = {3'd0, instruction_i[14:12]};
             endcase
-            rs1_reg = instruction_i[19:15];
-            rs2_reg = instruction_i[24:20];
-            rd_reg = instruction_i[11:7];
-            alusrc_reg = 1'b0;
-            reg_write_reg = 1'b1;
         end
         default: begin
-            isbranchtaken_reg = 1'b0;
-            jump_reg = 1'b0;
-            dmem_to_reg_reg = 1'b0;
-            alu_op_reg = 6'd0;
-            rs1_reg = 5'd0;
-            rs2_reg = 5'd0;
-            rd_reg = 5'd0;
-            alusrc_reg = 1'b0;
-            reg_write_reg = 1'b0;
+            alusrc1_reg = 1'b0;
+            alusrc2_reg = 1'b0;
+            dmem_to_reg_reg = 2'b00; 
+            reg_write_reg = 1'b0; 
+            reg_dest_reg = 1'b0; 
+            mem_read_reg = 1'b0; 
+            mem_write_reg = 1'b0; 
+            isbranchtaken_reg = 1'b0; 
+            jump_reg = 1'b0; 
         end
     endcase
 end
