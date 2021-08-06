@@ -64,7 +64,7 @@ reg decode_exceute_isbranchtaken_reg; //branch taken
 reg decode_exceute_jump_reg; // determines if jump is the instruction or not
 reg [5:0] decode_exceute_alu_op_reg; //alu op code 
 
-always @(*) begin
+always @(posedge clk) begin
     decode_exceute_opcode_reg <= opcode_i;
     decode_exceute_funct3_reg <= funct3_i;
     decode_exceute_rs1_reg <= rs1_i;
