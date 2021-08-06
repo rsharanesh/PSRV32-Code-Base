@@ -170,7 +170,7 @@ always @(instruction_i) begin
                 3'd1:   // SLLI
                     alu_op_reg = {3'd0, instruction_i[14:12]};
                 3'd5:   // SRLI or SRAI
-                    alu_op_reg = (instruction_i[30]) ? 6'd8:6'd5;
+                    alu_op_reg = (instruction_i[30]) ? 6'd8:6'd5; 
                 default:
                     alu_op_reg = {3'd0, instruction_i[14:12]};
             endcase
