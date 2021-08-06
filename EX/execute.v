@@ -47,6 +47,10 @@ module execute(
       
       
       
+  alu alu_inst(.op1(op1), .op2(op2), .aluop(aluop_i), .alu_result(alu_result_r));
+      
+      
+      
         
           
           
