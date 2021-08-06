@@ -8,6 +8,9 @@ module control (
     output [4:0] rs2_o, //source operand-2 address
     output [4:0] rd_o, //destination operand address
 
+    output [6:0] opcode_o, //Opcode of the instruction
+    output [2:0] funct3_o, //Funct3 of the instruction
+
     output alusrc_o; //alu source
     output dmem_to_reg_o; //mem2reg
     output reg_write_o; //reg write (enables reg for writings)
@@ -22,6 +25,9 @@ module control (
 // ---------------
 // Registers and Wires
 // ---------------
+reg opcode_reg; // opcode register
+reg funct3_reg; // funct3 register
+
 reg alusrc_reg; //alu source register (from reg file or immediate)
 reg dmem_to_reg_reg; //mem2reg register (at the last stage to select for the write to reg file or not)
 reg reg_write_reg; //reg write register (register write control signal)
@@ -55,6 +61,9 @@ localparam SXX = 7'b0100011;
 // Generating the control signals based on instruction type
 // -----------------
 always @(instruction_i) begin
+    opcode_reg <= instruction_i[6:0];
+    funct3_reg <= instruction_i[14:12];
+
     case (instruction_i[6:0])
         LUI,
         AUIPC: begin
@@ -205,6 +214,8 @@ end
 // --------------
 // Final Assignments to output the control signals
 // --------------
+assign opcode_o = opcode_reg;
+assign funct3_o = funct3_reg;
 assign isbranchtaken_o = ~reset_i & isbranchtaken_reg;
 assign jump_o = ~reset_i & jump_reg;
 assign dmem_to_reg_o = ~reset_i & dmem_to_reg_reg;
