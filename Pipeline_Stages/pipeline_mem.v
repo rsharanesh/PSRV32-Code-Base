@@ -7,4 +7,5 @@ module memory(
     input data_write_enable_i, //enable the data write
 
     output [31:0] data_read_o, //data read from the memory cell
-)
+);
+
