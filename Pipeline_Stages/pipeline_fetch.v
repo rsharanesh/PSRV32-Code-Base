@@ -16,6 +16,7 @@ module pipeline_fetch(
 reg [31:0] i_mem [0:31]; //Instruction Memory
 reg [31:0] pc_reg; //Program Counter register
 reg [31:0] instruction_o_reg; //Instruction register for output
+reg [31:0] pc_temp; //Temporary Program Counter
 
 // -------------------------
 // Reading from IMEM
@@ -36,14 +37,16 @@ end
 always @(posedge clk_i) begin
     if(reset_i) begin
         pc_reg <= 32'd0;
+        pc_temp <= 32'd0;
     end
     else begin
-        pc_reg <= (isbranchtaken_i) ? pc_branch_i : pc_reg + 4;
+        pc_temp <= pc_reg + 4;
+        pc_reg <= (isbranchtaken_i) ? pc_branch_i : pc_temp;
         instruction_o_reg <= i_mem[pc_reg];
     end
 end
 
-assign pcsrc_o = pc_reg;
+assign pcsrc_o = pc_temp;
 assign instruction_o = instruction_o_reg;
 
 endmodule
