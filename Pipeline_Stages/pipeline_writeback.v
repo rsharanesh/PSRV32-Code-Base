@@ -14,5 +14,14 @@ module writeback(
 reg [31:0] data_write_reg_reg; //data to be written to register file
 
 always @(*) begin
-    
+    case(mem_to_reg_i)
+        2'b00: data_write_reg_reg <= data_read_i;
+        2'b01: data_write_reg_reg <= alu_result_i;
+        2'b10: data_write_reg_reg <= pscsrc_i;
+        2'b11: data_write_reg_reg <= offset_i;
+    endcase
 end
+
+assign data_write_reg_o = data_write_reg_reg;
+
+endmodule
