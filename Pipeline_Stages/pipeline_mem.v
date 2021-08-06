@@ -13,6 +13,10 @@ module memory(
 reg [31:0] data_memory_reg [0:255];
 reg [31:0] data_read_reg;
 
+initial begin
+    $readmemh("data_mem.mem",memt);
+end
+    
 always @(posedge clk) begin
     if(~reset_i) begin
         if(data_write_enable_i) begin
