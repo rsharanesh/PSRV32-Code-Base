@@ -2,7 +2,7 @@ module execute(
   input clk_i,  // CLOCK
   input reset_i,  // RESET
   
-  input pcsrc_i,  // PC
+  input pcsrc_i,  // PC+4
   input instruction_i,  // INSTRUCTION
   
   input read_data1_i, // DATA READ FROM REGISTER SOURCE 1 - OP1
@@ -44,6 +44,10 @@ module execute(
           pc_ifbranch <= 'b0;
         end
     else begin
+      
+      
+      
+  alu alu_inst(.op1(op1), .op2(op2), .aluop(aluop_i), .alu_result(alu_result_r));
       
       
       
