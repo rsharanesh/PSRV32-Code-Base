@@ -4,19 +4,12 @@ module control (
 
     input [31:0] instruction_i, //instruction input
 
-    output [4:0] rs1_o, //source operand-1 address
-    output [4:0] rs2_o, //source operand-2 address
-    output [4:0] rd_o, //destination operand address
-
-    output [6:0] opcode_o, //Opcode of the instruction
-    output [2:0] funct3_o, //Funct3 of the instruction
-
-    output alusrc_o; //alu source
-    output dmem_to_reg_o; //mem2reg
-    output reg_write_o; //reg write (enables reg for writings)
-    output reg_dest_o; //register destination to select to two possible destinations.
-    output mem_read_o; //mem read
-    output mem_write_o; //mem write
+    output alusrc_o; //alu source (1:immediate, 0:read_data2)
+    output dmem_to_reg_o; //mem2reg (1:mem2reg, 0:alu_result_2reg)
+    output reg_write_o; //reg write (enables reg for writing)
+    output reg_dest_o; //register destination (1:rs2, 0:rd) (selects destination register)
+    output mem_read_o; //mem read (enables mem read)
+    output mem_write_o; //mem write (enables mem write)
     output isbranchtaken_o; //branch taken
     output jump_o; // determines if jump is the instruction or not
     output [5:0] alu_op_o; //alu op code 
@@ -25,45 +18,36 @@ module control (
 // ---------------
 // Registers and Wires
 // ---------------
-reg opcode_reg; // opcode register
-reg funct3_reg; // funct3 register
 
-reg alusrc_reg; //alu source register (from reg file or immediate)
-reg dmem_to_reg_reg; //mem2reg register (at the last stage to select for the write to reg file or not)
+reg alusrc_reg; //alu source register (1:immediate, 0:read_data2)
+reg dmem_to_reg_reg; //mem2reg register (1:mem2reg, 0:alu_result_2reg) (at the last stage to select for the write to reg file or not)
 reg reg_write_reg; //reg write register (register write control signal)
-reg reg_dest_reg; //**** register destination register (used in ex stage)
+reg reg_dest_reg; //**** register destination (1:rs2, 0:rd) (selects destination register)
 reg mem_read_reg; //**** mem read register (used in mem stage)
 reg mem_write_reg; //*** mem write register (used in mem stage)
 reg isbranchtaken_reg; //branch taken register  
 reg jump_reg; //jump register 
 reg [5:0] alu_op_reg; //alu op code register
 
-reg [4:0] rs1_reg; //source operand-1 register
-reg [4:0] rs2_reg; //source operand-2 register
-reg [4:0] rd_reg; //destination operand register
-
 wire opcode = instruction_i[6:0];
 
 // -----------------
 // Local parameters for denoting the instruction type
 // -----------------
-localparam RXX = 7'b0110011;
-localparam IXX = 7'b0010011;
-localparam BXX = 7'b1100011;
-localparam LUI = 7'b0110111;
-localparam AUIPC = 7'b0010111;
-localparam JAL = 7'b1101111;
-localparam JALR = 7'b1100111;
-localparam LXX = 7'b0000011;
-localparam SXX = 7'b0100011;
+localparam RXX = 7'b0110011; // R type
+localparam IXX = 7'b0010011; // IMM type
+localparam BXX = 7'b1100011; // Branch type
+localparam LUI = 7'b0110111;  // LUI type
+localparam AUIPC = 7'b0010111; // AUIPC type
+localparam JAL = 7'b1101111; // JAL type
+localparam JALR = 7'b1100111; // JALR type
+localparam LXX = 7'b0000011; // Load type
+localparam SXX = 7'b0100011; // Store type
 
 // -----------------
 // Generating the control signals based on instruction type
 // -----------------
 always @(instruction_i) begin
-    opcode_reg <= instruction_i[6:0];
-    funct3_reg <= instruction_i[14:12];
-
     case (instruction_i[6:0])
         LUI,
         AUIPC: begin
