@@ -27,6 +27,7 @@
 ## Summary
 ![Istrs](https://user-images.githubusercontent.com/64090140/128318173-e354d16f-8bcb-4891-849f-ed9240e2be84.png)
 [Reference](https://passlab.github.io/CSCE513/notes/lecture04_RISCV_ISA.pdf)
+[Reference](https://passlab.github.io/CSCE513/notes/lecture07_RISCV_Impl.pdf)
 * R-type: register-register        
 * I-type: short immediates and loads            
 * S-type: stores           
