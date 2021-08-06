@@ -8,6 +8,11 @@ module writeback(
     input [31:0] offset_i, //sign extended offset
     input [1:0] mem_to_reg_i, //memory to register mux signal
 
-    output reg [31:0] data_write_reg_o, //data write to register file
+    output [31:0] data_write_reg_o, //data write to register file
 );
 
+reg [31:0] data_write_reg_reg; //data to be written to register file
+
+always @(*) begin
+    
+end
