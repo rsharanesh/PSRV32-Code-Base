@@ -2,7 +2,7 @@ module execute(
   input clk_i,  // CLOCK
   input reset_i,  // RESET
   
-  input pcsrc_i,  // PC
+  input pcsrc_i,  // PC+4
   input instruction_i,  // INSTRUCTION
   
   input read_data1_i, // DATA READ FROM REGISTER SOURCE 1 - OP1
