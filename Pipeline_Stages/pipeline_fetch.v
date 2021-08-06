@@ -25,8 +25,6 @@ initial begin
     $readmemh("imem_ini.mem",m); 
 end
 
-assign instruction_data = i_mem[pc_reg[31:2]];
-
 initial begin
     assign pc_reg = 32'd0;
 end
@@ -40,14 +38,8 @@ always @(posedge clk_i) begin
         pc_reg <= 32'd0;
     end
     else begin
-        if(isbranchtaken_i == 1'b1)begin
-            pc_reg <= pc_branch_i;
-            instruction_o_reg <= i_mem[pc_reg];
-        end
-        else begin
-            pc_reg <= pc_reg+4;
-            instruction_o_reg <= i_mem[pc_reg];
-        end
+        pc_reg <= (isbranchtaken_i) ? pc_branch_i : pc_reg + 4;
+        instruction_o_reg <= i_mem[pc_reg];
     end
 end
 
