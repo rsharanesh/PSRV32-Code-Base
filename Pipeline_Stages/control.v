@@ -4,7 +4,6 @@ module control (
 
     input [31:0] instruction_i, //instruction input
 
-    
     output alusrc1_o; //alu source1 (1:pc, 0:read_data1)
     output alusrc2_o; //alu source2 (1:immediate, 0:read_data2)
     output [1:0] dmem_to_reg_o; //mem2reg (00:mem2reg, 01:alu_result_2reg, 10:pcsrc, 11: offset)
@@ -210,7 +209,8 @@ always @(instruction_i) begin
             mem_read_reg = 1'b0; 
             mem_write_reg = 1'b0; 
             isbranchtaken_reg = 1'b0; 
-            jump_reg = 1'b0; 
+            jump_reg = 1'b0;
+            alu_op_reg = 6'd15;
         end
     endcase
 end
@@ -218,14 +218,15 @@ end
 // --------------
 // Final Assignments to output the control signals
 // --------------
+assign alusrc1_o = ~reset_i & alusrc1_reg;
+assign alusrc2_o = ~reset_i & alusrc2_reg;
+assign dmem_to_reg_o = ~reset_i & dmem_to_reg_reg;
+assign reg_write_o = ~reset_i & reg_write_reg;
+assign reg_dest_o = ~reset_i & reg_dest_reg;
+assign mem_read_o = ~reset_i & mem_read_reg;
+assign mem_write_o = ~reset_i & mem_write_reg;
 assign isbranchtaken_o = ~reset_i & isbranchtaken_reg;
 assign jump_o = ~reset_i & jump_reg;
-assign dmem_to_reg_o = ~reset_i & dmem_to_reg_reg;
 assign alu_op_o = ~reset_i & alu_op_reg;
-assign rs1_o = ~reset_i & rs1_reg;
-assign rs2_o = ~reset_i & rs2_reg;
-assign rd_o = ~reset_i & rd_reg;
-assign alusrc_o = ~reset_i & alusrc_reg;
-assign reg_write_o = ~reset_i & reg_write_reg;
 
 endmodule
