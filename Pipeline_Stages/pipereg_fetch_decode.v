@@ -11,8 +11,8 @@ module fetch_decode_register(
     output [31:0] fd_pcsrc_o, //PC moving after fetch decode stage 
 )
 
-reg [31:0] fetch_decode_pipe_reg [1:0]; // The actual ID/IF register
-// 0 - Instructtion
+reg [31:0] fetch_decode_pipe_reg [1:0]; // The actual IF/ID register
+// 0 - Instruction
 // 1 - PC
 
 always @(*) begin
