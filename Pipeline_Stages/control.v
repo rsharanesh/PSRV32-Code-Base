@@ -9,7 +9,7 @@ module control (
     output [4:0] rd_o, //destination operand address
 
     output alusrc_o; //alu source
-    output mem_to_reg_o; //mem2reg
+    output dmem_to_reg_o; //mem2reg
     output reg_write_o; //reg write (enables reg for writings)
     output reg_dest_o; //register destination to select to two possible destinations.
     output mem_read_o; //mem read
@@ -19,14 +19,14 @@ module control (
     output [5:0] alu_op_o; //alu op code 
 );
 
-reg alusrc_reg; //alu source register
-reg mem_to_reg_reg; //mem2reg register
-reg reg_write_reg; //reg write register
-reg reg_dest_reg; //register destination register
-reg mem_read_reg; //mem read register
-reg mem_write_reg; //mem write register
-reg isbranchtaken_reg; //branch taken register
-reg jump_reg; //jump register
+reg alusrc_reg; //alu source register (from reg file or immediate)
+reg dmem_to_reg_reg; //mem2reg register (at the last stage to select for the write to reg file or not)
+reg reg_write_reg; //reg write register (register write control signal)
+reg reg_dest_reg; //register destination register (used in ex stage)
+reg mem_read_reg; //mem read register (used in mem stage)
+reg mem_write_reg; //mem write register (used in mem stage)
+reg isbranchtaken_reg; //branch taken register  
+reg jump_reg; //jump register 
 reg [5:0] alu_op_reg; //alu op code register
 
 reg [4:0] rs1_reg; //source operand-1 register
@@ -51,40 +51,40 @@ always @(instruction_i) begin
         AUIPC: begin
             isbranchtaken_reg = 1'b0;
             jump_reg = 1'b0;
-            mem_to_reg_reg = 1'b0;
+            dmem_to_reg_reg = 1'b0;
             alu_op_reg = 6'd0;
             rs1_reg = 5'd0;
             rs2_reg = 5'd0;
             rd_reg = instruction_i[11:7];
-            mem_to_reg_reg = 1'b1;
+            alusrc_reg = 1'b1;
             reg_write_reg = 1'b1;
         end
         JAL: begin
             isbranchtaken_reg = 1'b0;
             jump_reg = 1'b1;
-            mem_to_reg_reg = 1'b0;
+            dmem_to_reg_reg = 1'b0;
             alu_op_reg = 6'd0;
             rs1_reg = 5'd0;
             rs2_reg = 5'd0;
             rd_reg = instruction_i[11:7];
-            mem_to_reg_reg = 1'b0;
+            dmem_to_reg_reg = 1'b0;
             reg_write_reg = 1'b1;
         end
         JALR: begin
             isbranchtaken_reg = 1'b0;
             jump_reg = 1'b1;
-            mem_to_reg_reg = 1'b0;
+            dmem_to_reg_reg = 1'b0;
             alu_op_reg = 6'd0;
             rs1_reg = instruction_i[19:15];
             rs2_reg = 5'd0;
             rd_reg = instruction_i[11:7];
-            mem_to_reg_reg = 1'b0;
+            alusrc_reg = 1'b0;
             reg_write_reg = 1'b1;
         end
         BXX: begin
             isbranchtaken_reg = 1'b1;
             jump_reg = 1'b0;
-            mem_to_reg_reg = 1'b0;
+            dmem_to_reg_reg = 1'b0;
             case(instruction_i[14:12])
                 3'd0:   // BEQ
                     alu_op_reg = 6'd9;
@@ -104,35 +104,35 @@ always @(instruction_i) begin
             rs1_reg = instruction_i[19:15];
             rs2_reg = instruction_i[24:20];
             rd_reg = 5'd0;
-            mem_to_reg_reg = 1'b0;
+            alusrc_reg = 1'b0;
             reg_write_reg = 1'b0;
         end
         LXX: begin
             isbranchtaken_reg = 1'b0;
             jump_reg = 1'b0;
-            mem_to_reg_reg = 1'b1;
+            dmem_to_reg_reg = 1'b1;
             alu_op_reg = 6'd0;
             rs1_reg = instruction_i[19:15];
             rs2_reg = 5'd0;
             rd_reg = instruction_i[11:7];
-            mem_to_reg_reg = 1'b1;
+            alusrc_reg = 1'b1;
             reg_write_reg = 1'b1;
         end
         SXX: begin
             isbranchtaken_reg = 1'b0;
             jump_reg = 1'b0;
-            mem_to_reg_reg = 1'b0;
+            dmem_to_reg_reg = 1'b0;
             alu_op_reg = 6'd0;
             rs1_reg = instruction_i[19:15];
             rs2_reg = instruction_i[24:20];
             rd_reg = 5'd0;
-            mem_to_reg_reg = 1'b1;
+            alusrc_reg = 1'b1;
             reg_write_reg = 1'b0;
         end
         IXX: begin
             isbranchtaken_reg = 1'b0;
             jump_reg = 1'b0;
-            mem_to_reg_reg = 1'b0;
+            dmem_to_reg_reg = 1'b0;
             case (instruction_i[14:12])
                 3'd0,   // ADDI
                 3'd2,   // SLTI
@@ -151,13 +151,13 @@ always @(instruction_i) begin
             rs1_reg = instruction_i[19:15];
             rs2_reg = 5'd0;
             rd_reg = instruction_i[11:7];
-            mem_to_reg_reg = 1'b1;
+            alusrc_reg = 1'b1;
             reg_write_reg = 1'b1;
         end
         RXX: begin
             isbranchtaken_reg = 1'b0;
             jump_reg = 1'b0;
-            mem_to_reg_reg = 1'b0;
+            dmem_to_reg_reg = 1'b0;
             case(instruction_i[14:12])
                 3'd1,   // SLL
                 3'd2,   // SLT
@@ -176,18 +176,18 @@ always @(instruction_i) begin
             rs1_reg = instruction_i[19:15];
             rs2_reg = instruction_i[24:20];
             rd_reg = instruction_i[11:7];
-            mem_to_reg_reg = 1'b0;
+            alusrc_reg = 1'b0;
             reg_write_reg = 1'b1;
         end
         default: begin
             isbranchtaken_reg = 1'b0;
             jump_reg = 1'b0;
-            mem_to_reg_reg = 1'b0;
+            dmem_to_reg_reg = 1'b0;
             alu_op_reg = 6'd0;
             rs1_reg = 5'd0;
             rs2_reg = 5'd0;
             rd_reg = 5'd0;
-            mem_to_reg_reg = 1'b0;
+            alusrc_reg = 1'b0;
             reg_write_reg = 1'b0;
         end
     endcase
@@ -195,12 +195,12 @@ end
 
 assign isbranchtaken_o = ~reset_i & isbranchtaken_reg;
 assign jump_o = ~reset_i & jump_reg;
-assign mem_to_reg_o = ~reset_i & mem_to_reg_reg;
+assign dmem_to_reg_o = ~reset_i & dmem_to_reg_reg;
 assign alu_op_o = ~reset_i & alu_op_reg;
 assign rs1_o = ~reset_i & rs1_reg;
 assign rs2_o = ~reset_i & rs2_reg;
 assign rd_o = ~reset_i & rd_reg;
-assign regOrImm = ~reset_i & regOrImm_r;
+assign alusrc_o = ~reset_i & alusrc_reg;
 assign reg_write_o = ~reset_i & reg_write_reg;
 
 endmodule
