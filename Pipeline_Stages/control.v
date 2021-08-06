@@ -19,6 +19,9 @@ module control (
     output [5:0] alu_op_o; //alu op code 
 );
 
+// ---------------
+// Registers and Wires
+// ---------------
 reg alusrc_reg; //alu source register (from reg file or immediate)
 reg dmem_to_reg_reg; //mem2reg register (at the last stage to select for the write to reg file or not)
 reg reg_write_reg; //reg write register (register write control signal)
@@ -35,6 +38,9 @@ reg [4:0] rd_reg; //destination operand register
 
 wire opcode = instruction_i[6:0];
 
+// -----------------
+// Local parameters for denoting the instruction type
+// -----------------
 localparam RXX = 7'b0110011;
 localparam IXX = 7'b0010011;
 localparam BXX = 7'b1100011;
@@ -45,6 +51,9 @@ localparam JALR = 7'b1100111;
 localparam LXX = 7'b0000011;
 localparam SXX = 7'b0100011;
 
+// -----------------
+// Generating the control signals based on instruction type
+// -----------------
 always @(instruction_i) begin
     case (instruction_i[6:0])
         LUI,
@@ -193,6 +202,9 @@ always @(instruction_i) begin
     endcase
 end
 
+// --------------
+// Final Assignments to output the control signals
+// --------------
 assign isbranchtaken_o = ~reset_i & isbranchtaken_reg;
 assign jump_o = ~reset_i & jump_reg;
 assign dmem_to_reg_o = ~reset_i & dmem_to_reg_reg;
