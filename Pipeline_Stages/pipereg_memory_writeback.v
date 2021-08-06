@@ -9,7 +9,7 @@ module memory_writeback_register (
     input [1:0] mem_to_reg_i,//memory to register muxsignal 
     input reg_write_i, //control signal to assert when writing to memory
 
-    output [31:0] data_write_o, //data from memory
+    output [31:0] data_read_o, //data from memory
     output [31:0] alu_result_o, //result of the ALU
     output [31:0] write_reg_o //address of the register to write to
 
@@ -32,7 +32,7 @@ always @(posedge clk ) begin
     reg_write_reg <= reg_write_i;
 end
 
-assign data_write_o = ~reset_i & mw_data_read_reg;
+assign data_read_o = ~reset_i & mw_data_read_reg;
 assign alu_result_o = ~reset_i & mw_alu_result_reg;
 assign write_reg_o = ~reset_i & mw_write_reg;
 assign mem_to_reg_o = ~reset_i & mw_mem_to_reg;
