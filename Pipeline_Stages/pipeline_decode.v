@@ -4,8 +4,8 @@ module pipeline_decode(
     input [31:0] instruction_i, //Instruction input
     input [31:0] pcsrc_i, //Program counter 
     
-    input [4:0] write_reg_i, // Address of the write register
-    input [31:0] write_data_i, //Data to be written in the write register
+    input [4:0] write_reg_i, // Address of the write register (Coming from WB)
+    input [31:0] write_data_i, //Data to be written in the write register (Coming from WB)
     input reg_write_i, //Control signal that determines if it is to write in the register or not
 
     output [6:0] opcode_o, //Opcode of the instruction
@@ -33,15 +33,14 @@ reg [15:0] offset_reg; //offset value after being sign extended
 
 reg [31:0] data_mem[0:31]; //data memory
 
-
 // -------------
 // Peforming the required functionalities
 // -------------
 always @(posedge clk ) begin
     opcode_reg <= instruction_i[6:0];
     funct3_reg <= instruction_i[14:12];
-    rs1_reg <= instruction_i[24:20];
-    rs2_reg <= instruction_i[19:15];
+    rs1_reg <= instruction_i[19:15];
+    rs2_reg <= instruction_i[24:20];
     rd_reg <= instruction_i[11:7];
     if(instruction_i[6:0] == 7'b0100011) begin
         offset_reg <= {{16{instruction_i[31]}},{instruction_i[31:25],instruction_i[11:7]}};
