@@ -25,9 +25,9 @@ module control (
 reg alusrc_reg; //alu source register (from reg file or immediate)
 reg dmem_to_reg_reg; //mem2reg register (at the last stage to select for the write to reg file or not)
 reg reg_write_reg; //reg write register (register write control signal)
-reg reg_dest_reg; //register destination register (used in ex stage)
-reg mem_read_reg; //mem read register (used in mem stage)
-reg mem_write_reg; //mem write register (used in mem stage)
+reg reg_dest_reg; //**** register destination register (used in ex stage)
+reg mem_read_reg; //**** mem read register (used in mem stage)
+reg mem_write_reg; //*** mem write register (used in mem stage)
 reg isbranchtaken_reg; //branch taken register  
 reg jump_reg; //jump register 
 reg [5:0] alu_op_reg; //alu op code register
