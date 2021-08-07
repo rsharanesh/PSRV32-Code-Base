@@ -30,7 +30,7 @@ reg [4:0] rs2_reg; //source operand-2 address register
 reg [4:0] rd_reg; //destination operand address register
 reg [15:0] offset_reg; //offset value after being sign extended
 
-reg [31:0] data_mem[0:31]; //data memory
+reg [31:0] internal_registers[0:31]; //data memory
 
 // -------------
 // Peforming the required functionalities
@@ -67,8 +67,8 @@ assign funct3_o = funct3_reg;
 assign rs1_o = rs1_reg;
 assign rs2_o = rs2_reg;
 assign rd_o = rd_reg;
-assign read_data1_o = data_mem[rs1_reg]; // set it based on reg now... may be change based on output
-assign read_data2_o = data_mem[rs2_reg]; // set it based on reg now... may be change based on output
+assign read_data1_o = internal_registers[rs1_reg]; // set it based on reg now... may be change based on output
+assign read_data2_o = internal_registers[rs2_reg]; // set it based on reg now... may be change based on output
 assign offset_o = offset_reg;
 
 endmodule
