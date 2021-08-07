@@ -35,9 +35,20 @@ reg [31:0] internal_registers[0:31]; //data memory
 // -------------
 // Peforming the required functionalities
 // -------------
-always @(posedge clk_i) begin
-    
+integer i;
+initial begin //intially setting all registers to zero
+    for(i=0;i<32;i++)
+        internal_registers[i]=32'b0;
 end
+always @(posedge clk_i) begin
+    if(reg_write_i) begin
+        if(write_addr_reg_i == 5'd0)
+            internal_registers[write_addr_reg_i] <= 32'd0; // the reg0 is always zero
+        else
+            internal_registers[write_addr_reg_i] <= write_data_reg_i;
+    end
+end
+
 always @(*) begin
     opcode_reg <= instruction_i[6:0];
     funct3_reg <= instruction_i[14:12];
