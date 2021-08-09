@@ -21,7 +21,7 @@ module control (
 // ---------------
 reg alusrc1_reg; //alu source1 register (1:pc, 0:read_data1)
 reg alusrc2_reg; //alu source2 register (1:immediate, 0:read_data2)
-reg [1:0] dmem_to_reg_reg; //mem2reg register (00:mem2reg, 01:alu_result_2reg, 10:pcsrc), 11: offset)
+reg [1:0] dmem_to_reg_reg; //mem2reg register (00:mem2reg, 01:alu_result_2reg, 10:pcsrc, 11: offset)
 reg reg_write_reg; //reg write register (register write control signal)
 reg reg_dest_reg; //**** register destination (1:rs2, 0:rd) (selects destination register)
 reg mem_read_reg; //**** mem read register (used in mem stage)
