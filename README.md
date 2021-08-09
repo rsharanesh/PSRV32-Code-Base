@@ -6,8 +6,7 @@ The Private Code base that has been used for PSRV32 Processor.
 
 -   Reads are always Combinational, Writes are sequential
 -   Have a common clock signal across all the modules with name **clk**
--   In all the flowcharts attached below the following convention is being held: _we highlight the right half of registers or memory when they are
-    being read and highlight the left half when they are being written_
+-   In all the flowcharts attached below the following convention is being held: _we highlight the right half of registers or memory when they are being read and highlight the left half when they are being written_
 
 ## Designing the Pipeline flow
 
