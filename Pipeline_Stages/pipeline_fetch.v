@@ -2,7 +2,7 @@ module pipeline_fetch(
     input clk_i, //Clock-input
     input reset_i, //Reset-input
 
-    input isbranchtaken_i, //PC Source input
+    input pc_select_i, //PC Source input
     input [31:0] pc_branch_i, //Updated Program Counter from EX stage for a branch instruction
 
     output [31:0] instruction_o, //The fetched instruction from the memory
@@ -42,7 +42,7 @@ always @(posedge clk_i) begin
     end
     else begin
         pc_temp <= pc_reg + 4;
-        pc_reg <= (isbranchtaken_i) ? pc_branch_i : pc_temp;
+        pc_reg <= (pc_select_i) ? pc_branch_i : pc_temp;
         instruction_o_reg <= i_mem[pc_reg];
     end
 end
