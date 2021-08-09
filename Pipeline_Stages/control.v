@@ -58,7 +58,7 @@ always @(instruction_i) begin
             mem_write_reg = 1'b0; 
             isbranchtaken_reg = 1'b0; 
             jump_reg = 1'b0; 
-            ///alu_op_reg = LUI;
+            alu_op_reg = 6'd15;
         end
         AUIPC: begin
             alusrc1_reg = 1'b1;
@@ -70,7 +70,7 @@ always @(instruction_i) begin
             mem_write_reg = 1'b0; 
             isbranchtaken_reg = 1'b0; 
             jump_reg = 1'b0; 
-            ///alu_op_reg = AUIPC;
+            alu_op_reg = 6'd0;
         end
         JAL: begin
             alusrc1_reg = 1'b1;
@@ -82,7 +82,7 @@ always @(instruction_i) begin
             mem_write_reg = 1'b0; 
             isbranchtaken_reg = 1'b0; 
             jump_reg = 1'b1; 
-            ///alu_op_reg = JAL;
+            alu_op_reg = 6'd15;
         end
         JALR: begin
             alusrc1_reg = 1'b0;
@@ -94,7 +94,7 @@ always @(instruction_i) begin
             mem_write_reg = 1'b0; 
             isbranchtaken_reg = 1'b0; 
             jump_reg = 1'b1; 
-            ///alu_op_reg = JALR;
+            alu_op_reg = 6'd15;
         end
         BXX: begin
             alusrc1_reg = 1'b0;
@@ -106,7 +106,6 @@ always @(instruction_i) begin
             mem_write_reg = 1'b0; 
             isbranchtaken_reg = 1'b1; 
             jump_reg = 1'b0; 
-            ///alu_op_reg = JALR;
             case (instruction_i[14:12])
                 3'd0:   // BEQ
                     alu_op_reg = 6'd9;
@@ -134,7 +133,7 @@ always @(instruction_i) begin
             mem_write_reg = 1'b0; 
             isbranchtaken_reg = 1'b0; 
             jump_reg = 1'b0; 
-            ///alu_op_reg = LXX;
+            alu_op_reg = 6'd15;
         end
         SXX: begin
             alusrc1_reg = 1'b0;
@@ -146,7 +145,7 @@ always @(instruction_i) begin
             mem_write_reg = 1'b1; 
             isbranchtaken_reg = 1'b0; 
             jump_reg = 1'b0; 
-            ///alu_op_reg = SXX;
+            alu_op_reg = 6'd15;
         end
         IXX: begin
             alusrc1_reg = 1'b0;
