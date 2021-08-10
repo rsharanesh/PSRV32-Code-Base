@@ -9,7 +9,7 @@ module decode_exceute_register (
 
     input alusrc1_i, //alu source-1
     input alusrc2_i, //alu source-2
-    input mem_to_reg_i, //mem2reg
+    input [1:0] dmem_to_reg_i, //mem2reg
     input reg_write_i, //reg write (enables reg for writings)
     input reg_dest_i, //register destination to select to two possible destinations.
     input mem_read_i, //mem read
@@ -20,6 +20,7 @@ module decode_exceute_register (
 
     input [4:0] rs1_i, //rs1 field
     input [4:0] rs2_i, //rs2 field
+    input [4:0] rd_i, //rd field
 
     input [31:0] read_data1_i, // data read from reg source-1
     input [31:0] read_data2_i, // data read from reg source-2
@@ -33,7 +34,7 @@ module decode_exceute_register (
 
     output de_alusrc1_o, //alu source
     output de_alusrc2_o, //alu source
-    output de_mem_to_reg_o, //mem2reg
+    output [1:0] de_mem_to_reg_o, //mem2reg
     output de_reg_write_o, //reg write (enables reg for writings)
     output de_reg_dest_o, //register destination to select to two possible destinations.
     output de_mem_read_o, //mem read
@@ -44,6 +45,7 @@ module decode_exceute_register (
 
     output [4:0] de_rs1_o, //rs1 field
     output [4:0] de_rs2_o, //rs2 field
+    output [4:0] de_rd_o, //rd field
 
     output [31:0] de_read_data1_o, // data read from reg source-1
     output [31:0] de_read_data2_o, // data read from reg source-2
@@ -58,6 +60,7 @@ reg [2:0] decode_exceute_funct3_reg; //funct3 field
 
 reg [4:0] decode_exceute_rs1_reg; //rs1 field
 reg [4:0] decode_exceute_rs2_reg; //rs2 field
+reg [4:0] decode_exceute_rd_reg; //rd field
 
 reg [31:0] decode_exceute_read_data1_reg; // data read from reg source-1
 reg [31:0] decode_exceute_read_data2_reg; // data read from reg source-2
@@ -65,7 +68,7 @@ reg [31:0] decode_exceute_offset_reg; // sign extended offset
 
 reg decode_exceute_alusrc1_reg; //alu source
 reg decode_exceute_alusrc2_reg; //alu source
-reg decode_exceute_mem_to_reg_reg; //mem2reg
+reg [1:0] decode_exceute_dmem_to_reg_reg; //mem2reg
 reg decode_exceute_reg_write_reg; //reg_write (enables reg_ for writings)
 reg decode_exceute_reg_dest_reg; //register destination to select to two possible destinations.
 reg decode_exceute_mem_read_reg; //mem read
@@ -82,13 +85,14 @@ always @(posedge clk) begin
     decode_exceute_funct3_reg <= funct3_i;
     decode_exceute_rs1_reg <= rs1_i;
     decode_exceute_rs2_reg <= rs2_i;
+    decode_exceute_rd_reg <= rd_i;
     decode_exceute_read_data1_reg <= read_data1_i;
     decode_exceute_read_data2_reg <= read_data2_i;
     decode_exceute_offset_reg <= offset_i;
 
     decode_exceute_alusrc1_reg <= alusrc1_i;
     decode_exceute_alusrc2_reg <= alusrc2_i;
-    decode_exceute_mem_to_reg_reg <= mem_to_reg_i;
+    decode_exceute_dmem_to_reg_reg <= dmem_to_reg_i;
     decode_exceute_reg_write_reg <= reg_write_i;
     decode_exceute_reg_dest_reg <= reg_dest_i;
     decode_exceute_mem_read_reg <= mem_read_i;
@@ -105,13 +109,14 @@ assign de_opcode_o = decode_exceute_opcode_reg;
 assign de_funct3_o = decode_exceute_funct3_reg;
 assign de_rs1_o = decode_exceute_rs1_reg;
 assign de_rs2_o = decode_exceute_rs2_reg;
+assign de_rd_o = decode_exceute_rd_reg;
 assign de_read_data1_o = decode_exceute_read_data1_reg;
 assign de_read_data2_o = decode_exceute_read_data2_reg;
 assign de_offset_o = decode_exceute_offset_reg;
 
 assign de_alusrc1_o = decode_exceute_alusrc1_reg;
 assign de_alusrc2_o = decode_exceute_alusrc2_reg;
-assign de_mem_to_reg_o = decode_exceute_mem_to_reg_reg;
+assign de_mem_to_reg_o = decode_exceute_dmem_to_reg_reg;
 assign de_reg_write_o = decode_exceute_reg_write_reg;
 assign de_reg_dest_o = decode_exceute_reg_dest_reg;
 assign de_mem_read_o = decode_exceute_mem_read_reg;
