@@ -52,8 +52,8 @@ module decode_exceute_register (
     output [31:0] de_offset_o // sign extended offset
 );
 
-reg [31:0] decdode_exceut_pcsrc_reg; //Program counter before update
-reg [31:0] decdode_exceut_pc_reg; //Program counter after update
+reg [31:0] decode_exceut_pcsrc_reg; //Program counter before update
+reg [31:0] decode_exceut_pc_reg; //Program counter after update
 
 reg [6:0] decode_exceute_opcode_reg; //opcode
 reg [2:0] decode_exceute_funct3_reg; //funct3 field
