@@ -1,6 +1,6 @@
 module execute_memory_register (
     input clk_i, //Clock input
-
+    input reset_i, //Reset input
     input [31:0] pcsrc_i, //PC source input
 
     input reg_write_i, //reg write (enables reg for writings)
