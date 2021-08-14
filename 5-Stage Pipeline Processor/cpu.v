@@ -27,3 +27,13 @@ wire [4:0] rs1; // rs1
 wire [4:0] rs2; // rs2
 wire [4:0] rd; // rd
 wire [31:0] offset; // offset
+
+//from exceute_pipeline
+wire [5:0] alu_op; // alu operation
+wire alu_src1; // alu source1 control signal
+wire alu_src2; // alu source2 control signal
+wire reg_dst; // reg destination control signal
+wire isbranchtaken; // branch taken control signal
+wire jump; // jump control signal
+wire [31:0] alu_result; // alu result
+wire 
