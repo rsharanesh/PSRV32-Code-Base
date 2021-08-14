@@ -36,4 +36,4 @@ wire reg_dst; // reg destination control signal
 wire isbranchtaken; // branch taken control signal
 wire jump; // jump control signal
 wire [31:0] alu_result; // alu result
-wire 
+wire [31:0] pc_new; // program counter new
