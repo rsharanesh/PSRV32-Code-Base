@@ -11,7 +11,7 @@ module execute_memory_register (
     input [31:0] pc_new_i,
     input pc_select_i, 
 
-    input [4:0] write_reg_i,
+    input [4:0] write_addr_reg_i,
     input [31:0] alu_result_i,  // ALU RESULT 
     input [31:0] read_data2_i,
 
@@ -22,7 +22,7 @@ module execute_memory_register (
     output em_mem_write_o,
     output [31:0] em_pc_new_o,
     output em_pc_select_o,
-    output [4:0] em_write_reg_o,
+    output [4:0] em_write_addr_reg_o,
     output [31:0] em_alu_result_o,
     output [31:0] em_read_data2_o    
 );
@@ -34,7 +34,7 @@ reg [1:0] execute_memory_dmem_to_reg_reg;
 reg execute_memory_mem_write_reg;
 reg [31:0] execute_memory_pc_new_reg;
 reg execute_memory_pc_select_reg;
-reg [4:0] execute_memory_write_reg_reg;
+reg [4:0] execute_memory_write_addr_reg_reg;
 reg [31:0] execute_memory_alu_result_reg;
 reg [31:0] execute_memory_read_data2_reg; 
 
@@ -49,7 +49,7 @@ always @(posedge clk_i) begin
     execute_memory_pc_new_reg <= pc_new_i;
     execute_memory_pc_select_reg <= pc_select_i;
 
-    execute_memory_write_reg_reg <= write_reg_i;
+    execute_memory_write_addr_reg_reg <= write_addr_reg_i;
     execute_memory_alu_result_reg <= alu_result_i;
     execute_memory_read_data2_reg <= read_data2_i;
 end
@@ -64,7 +64,7 @@ assign em_mem_write_o = execute_memory_mem_write_reg;
 assign em_pc_new_o = execute_memory_pc_new_reg;
 assign em_pc_select_o = execute_memory_pc_select_reg;
 
-assign em_write_reg_o = execute_memory_write_reg_reg;
+assign em_write_addr_reg_o = execute_memory_write_addr_reg_reg;
 assign em_read_data2_o = execute_memory_read_data2_reg;
 assign em_alu_result_o = execute_memory_alu_result_reg;
 

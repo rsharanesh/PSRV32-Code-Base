@@ -22,7 +22,7 @@ module execute(
   
   output [31:0] alu_result_o,  // ALU RESULT 
   output [31:0] read_data2_o,  // DATA READ FROM REGISTER SOURCE 2 IS PASSED TO MEM
-  output [4:0] write_reg_o, // REGISTER TO WRITE TO - PASSED TO MEM
+  output [4:0] write_addr_reg_o, // REGISTER TO WRITE TO - PASSED TO MEM
   output [31:0] pc_new_o, // PC IF BRANCH IS TAKEN
   output pc_select_o // PC MUX SELECT SIGNAL
 );
@@ -30,10 +30,10 @@ module execute(
 reg [31:0] op1, op2;
 reg [31:0] alu_result_reg;
 reg [31:0] pc_new_reg;
-reg [4:0] write_reg_reg;
+reg [4:0] write_addr_reg_reg;
 reg pc_select_reg;
 
-assign write_reg_reg = reg_dst_i ? rs2_i : rd_i;
+assign write_addr_reg_reg = reg_dst_i ? rs2_i : rd_i;
 
 assign op1 = alusrc1_i ? pc_i : read_data1_i;
 assign op2 = alusrc2_i ? offset_i : read_data2_i;
@@ -43,7 +43,7 @@ alu alu_inst(.op1_i(op1), .op2_i(op2), .aluop_i(aluop_i), .alu_result_o(alu_resu
 always @(posedge clk_i) begin
     if(reset_i) begin
         alu_result_reg <= 'b0;
-        write_reg_reg <= 'b0;
+        write_addr_reg_reg <= 'b0;
         pc_new_reg <= 'b0;
         pc_select_reg <= 'b0;
     end
@@ -106,6 +106,6 @@ end
 
 assign alu_result_o = alu_result_reg;
 assign read_data2_o = read_data2_i;
-assign write_reg_o = write_reg_reg;
+assign write_addr_reg_o = write_addr_reg_reg;
 assign pc_new_o = pc_new_reg; 
 assign pc_select_o = pc_select_reg;
