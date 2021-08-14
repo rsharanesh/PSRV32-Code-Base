@@ -45,3 +45,4 @@ wire [31:0] mem_read_data; //mem data read
 
 //from writeback_pipeline
 wire [1:0] dmem_to_reg; //mem to reg control signal
+
