@@ -37,3 +37,10 @@ wire isbranchtaken; // branch taken control signal
 wire jump; // jump control signal
 wire [31:0] alu_result; // alu result
 wire [31:0] pc_new; // program counter new
+
+//from memory_pipeline
+wire mem_write; //mem write control signal
+wire mem_read; //mem read control signal
+wire [31:0] mem_read_data; //mem data read
+
+//from writeback_pipeline

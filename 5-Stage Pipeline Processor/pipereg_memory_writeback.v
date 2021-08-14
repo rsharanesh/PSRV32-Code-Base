@@ -2,7 +2,7 @@ module memory_writeback_register (
     input clk_i,//clock input
     input reset_i,//reset input
 
-    input [31:0] data_read_i,//data that was read from memory
+    input [31:0] mem_data_read_i,//data that was read from memory
     input [31:0] alu_result_i,//result of the ALU operation
     input [31:0] write_reg_i, //address of the register to write to
     
@@ -25,7 +25,7 @@ reg [1:0] mw_mem_to_reg;
 reg reg_write_reg;
 
 always @(posedge clk ) begin
-    mw_data_read_reg <= data_read_i;
+    mw_data_read_reg <= mem_data_read_i;
     mw_alu_result_reg <= alu_result_i;
     mw_write_reg <= write_reg_i;
     mw_mem_to_reg <= mem_to_reg_i;
