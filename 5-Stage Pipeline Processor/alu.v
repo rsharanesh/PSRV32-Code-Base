@@ -1,8 +1,8 @@
 module alu(
-  input [31:0] op1_i,
-  input [31:0] op2_i,
-  input [5:0] aluop_i,
-  output [31:0] alu_result_o
+  input [31:0] op1_i, # operand-1 input
+  input [31:0] op2_i, # operand-2 input
+  input [5:0] aluop_i, # al opcode output
+  output [31:0] alu_result_o # result output
 );
   
   reg [31:0] result_reg;
