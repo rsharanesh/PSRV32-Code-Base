@@ -227,5 +227,48 @@ pipereg_exceute_mem n2(
     .aluop_i(de_alu_op),
     .offset_i(), /////
     .alusrc1_i(), /////
-    .alusrc2_i(), /////
-)
+    .alusrc2_i() /////
+);
+
+pipeline_memory m3(
+    .clk_i(clk),
+    .reset_i(reset),
+    .alu_result_i(), /////
+    .read_data2_i(), /////
+    .mem_write_i(), /////
+    .mem_read_i(), /////
+
+    .mem_data_read_o() /////
+);
+
+pipeline_memory_writeback n4(
+    .clk_i(clk),
+    .reset_i(reset),
+
+    .mem_data_read_i(), /////
+    .alu_result_i(), /////
+    .write_reg_i(), /////
+    .mem_to_reg_i(), /////
+    .reg_write_i(), /////
+
+    .data_read_o() /////
+    .alu_result_o() /////
+    .write_reg_o() /////
+    .mem_to_reg_o() /////
+    .reg_write_o() /////
+);
+
+pipeline_writeback m4(
+    .clk_i(clk),
+    .reset_i(reset),
+
+    .mem_data_read_i(), /////
+    .alu_result_i(), /////
+    .pc_src_i(), /////
+    .offset_i(), /////
+    .dmem_to_reg_i(), /////
+
+    .write_data_reg_o() /////
+);
+
+endmodule
