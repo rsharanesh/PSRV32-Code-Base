@@ -24,6 +24,7 @@ wire [31:0] fd_pc; // program counter
 wire [31:0] fd_pc_src; // program counter source
 
 //from decode_stage to decode_exceute_register
+wire [31:0] d_instruction; // instruction word
 wire [4:0] d_write_addr_reg; // write address register
 wire [31:0] d_write_data_reg; // write data register
 wire d_reg_write; // write register control signal
@@ -37,6 +38,8 @@ wire [4:0] d_rd; // rd
 wire [31:0] d_offset; // offset
 
 //from decode_exceute_register to execute_stage
+wire [31:0] de_pc; // program counter
+wire [31:0] de_pc_src; // program counter source
 wire [4:0] de_write_addr_reg; // write address register
 wire [31:0] de_write_data_reg; // write data register
 wire de_reg_write; // write register control signal
@@ -44,8 +47,8 @@ wire [6:0] de_opcode; // instruction opcode
 wire [2:0] de_funct3; // instruction funct3
 wire [31:0] de_read_data1; // read data1
 wire [31:0] de_read_data2; // read data2
-wire [4:0] de_rs1; // rs1
-wire [4:0] de_rs2; // rs2
+wire [4:0] de_alusrc1; // alusrc1
+wire [4:0] de_alusrc2; // alusrc2
 wire [4:0] de_rd; // rd
 wire [31:0] de_offset; // offset
 
@@ -93,20 +96,88 @@ pipeline_fetch m0(
     .pc_select_i(), ////////////////fresh_inputs, need to generate
     .pc_branch_i(), ////////////////fresh_inputs, need to generate
 
-    .instruction_o(instruction),
-    .pc_o(pc),
-    .pc_src_o(pc_src)
+    .instruction_o(f_instruction),
+    .pc_o(f_pc),
+    .pc_src_o(f_pc_src)
 );
 
 pipereg_fetch_decode n0(
     .clk_i(clk),
-    .f_instruction_i(instruction),
-    .f_pcsrc_i(pc_src),
-    .f_pc_i(pc),
+    .f_instruction_i(f_instruction),
+    .f_pcsrc_i(f_pc_src),
+    .f_pc_i(f_pc),
 
-    .fd_instruction_o()
-)
+    .fd_instruction_o(fd_instruction),
+    .fd_pc_o(fd_pc),
+    .fd_pcsrc_o(fd_pc_src)
+);
+
 pipeline_decode m1(
     .clk_i(clk),
-    .instruction_i()
+    .instruction_i(fd_instruction),
+    .pcsrc_i(fd_pc_src),
+    .write_addr_reg_i(), /////
+    .write_data_reg_i(), /////
+    .reg_write_i(), /////
+
+    .instruction_o(d_instruction),
+    .opcode_o(d_opcode),
+    .funct3_o(d_funct3),
+    .read_data1_o(d_read_data1),
+    .read_data2_o(d_read_data2),
+    .rs1_o(d_rs1),
+    .rs2_o(d_rs2),
+    .rd_o(d_rd),
+    .offset_o(d_offset)
 );
+
+control p0(
+    .clk_i(clk),
+    .reset_i(reset),
+    .instruction_i(d_instruction),
+
+    .alusrc1_o()
+);
+
+pipereg_decode_exceute n1(
+    .clk_i(clk),
+    .pc_src_i(fd_pc_src),
+    .pc_i(fd_pc),
+    .opcode_i(d_opcode),
+    .funct3_i(d_funct3),
+    .alu_src1_i(), //////
+    .alu_src2_i(), /////
+    .dmemm_to_reg_i(), /////
+    .reg_write_i(), /////
+    .reg_dest_i(), /////
+    .isbranchtaken_i(), /////
+    .jump_i(), /////
+    .alu_op_i(), /////
+    .rs1_i(d_rs1),
+    .rs2_i(d_rs2),
+    .rd_i(d_rd),
+    .read_data1_i(d_read_data1),
+    .read_data2_i(d_read_data2),
+    .offset_i(d_offset),
+
+    .de_pcsrc_o(de_pcsrc),
+    .de_pc_o(de_pc),
+    .de_opcode_o(de_opcode),
+    .de_funct3_o(de_funct3),
+    .de_alu_src1_o(de_alu_src1),
+    .de_alu_src2_o(de_alu_src2),
+    .de_mem_to_reg_o(), /////
+    .de_reg_write_o(de_reg_write),
+    .de_reg_dest_o(de_rd), /////
+    .de_isbranchtaken_o(de_isbranchtaken),
+    .de_jump_o(), /////
+    .de_alu_op_o(), /////
+    .de_rs1_o(), /////
+    .de_rs2_o(), /////
+    .de_rd_o(), /////
+    .de_read_data1_o(), /////
+    .de_read_data2_o(), /////
+    .de_offset_o() /////
+);
+
+pipeline_

@@ -26,8 +26,8 @@ module decode_exceute_register (
     input [31:0] read_data2_i, // data read from reg source-2
     input [31:0] offset_i, // sign extended offset
 
-    output [31:0] de_pcsrc_i, //PC source input
-    output [31:0] de_pc_i, //PC input
+    output [31:0] de_pcsrc_o, //PC source output
+    output [31:0] de_pc_o, //PC output
 
     output [6:0] de_opcode_o, //opcode
     output [2:0] de_funct3_o, //funct3 field
