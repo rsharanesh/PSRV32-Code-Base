@@ -136,7 +136,16 @@ control p0(
     .reset_i(reset),
     .instruction_i(d_instruction),
 
-    .alusrc1_o()
+    .alusrc1_o(), /////
+    .alusrc2_o(), /////
+    .dmem_to_reg_o(), /////
+    .reg_write_o(), /////
+    .reg_dest_o(), /////
+    .mem_read_o(), /////
+    .mem_write_o(), /////
+    .isbranchtaken_o(), /////
+    .jump_o(), /////
+    .alu_op_o(), /////
 );
 
 pipereg_decode_exceute n1(
@@ -180,4 +189,43 @@ pipereg_decode_exceute n1(
     .de_offset_o() /////
 );
 
-pipeline_
+alu p1(
+    .op1_i(), /////
+    .op2_i(), /////
+    .alu_op_i(), /////
+
+    .alu_result_o() /////
+);
+
+pipeline_exceute m2(
+    .clk_i(clk),
+    .reset_i(reset),
+    .pc_i(de_pc),
+    .pcsrc_i(de_pcsrc),
+    .instruction_i(), /////check if it is needed or not, idts 
+    .read_data1_i(), /////
+    .read_data2_i(), /////
+    .rs1_i(de_rs1),
+    .rs2_i(de_rs2),
+    .rd_i(de_rd),
+    .aluop_i(de_alu_op),
+    .offset_i(), /////
+);
+
+pipereg_exceute_mem n2(
+    .clk_i(clk),
+    .reset_i(reset),
+    .pc_i(de_pc),
+    .pcsrc_i(de_pcsrc),
+    .instruction_i(), /////check if it is needed or not, idts
+
+    .read_data1_i(), /////
+    .read_data2_i(), /////
+    .rs1_i(de_rs1),
+    .rs2_i(de_rs2),
+    .rd_i(de_rd),
+    .aluop_i(de_alu_op),
+    .offset_i(), /////
+    .alusrc1_i(), /////
+    .alusrc2_i(), /////
+)
