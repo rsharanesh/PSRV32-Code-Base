@@ -3,6 +3,7 @@ module decode_exceute_register (
 
     input [31:0] pcsrc_i, //PC source input
     input [31:0] pc_i, //PC input
+    input [31:0] instruction_i; //Instruction input
 
     input [6:0] opcode_i, //opcode
     input [2:0] funct3_i, //funct3 field
@@ -20,7 +21,7 @@ module decode_exceute_register (
 
     input [4:0] rs1_i, //rs1 field
     input [4:0] rs2_i, //rs2 field
-    input [4:0] rd_i, //rd field
+    input [4:0] rd_i, //rd field    
 
     input [31:0] read_data1_i, // data read from reg source-1
     input [31:0] read_data2_i, // data read from reg source-2
@@ -28,13 +29,14 @@ module decode_exceute_register (
 
     output [31:0] de_pcsrc_o, //PC source output
     output [31:0] de_pc_o, //PC output
+    output [31:0] de_instruction_o, //instruction output
 
     output [6:0] de_opcode_o, //opcode
     output [2:0] de_funct3_o, //funct3 field
 
     output de_alusrc1_o, //alu source
     output de_alusrc2_o, //alu source
-    output [1:0] de_mem_to_reg_o, //mem2reg
+    output [1:0] de_dmem_to_reg_o, //dmem2reg
     output de_reg_write_o, //reg write (enables reg for writings)
     output de_reg_dest_o, //register destination to select to two possible destinations.
     output de_mem_read_o, //mem read

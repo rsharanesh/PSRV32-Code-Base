@@ -2,7 +2,8 @@ module pipeline_decode(
     input clk_i, //Clock-input
     
     input [31:0] instruction_i, //Instruction input
-    input [31:0] pcsrc_i, //Program counter after update
+    input [31:0] pcsrc_i, //Program counter source without branching
+    input [31:0] pc_i, //Program counter
 
     input [4:0] write_addr_reg_i, // Address of the write register (Coming from WB)
     input [31:0] write_data_reg_i, //Data to be written in the write register (Coming from WB)

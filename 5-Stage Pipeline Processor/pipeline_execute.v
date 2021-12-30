@@ -16,7 +16,7 @@ module execute(
   
   input alusrc1_i, // CONTROL SIGNAL TO SELECT OP1
   input alusrc2_i, // CONTROL SIGNAL TO SELECT OP2
-  input reg_dst_i, // CONTROL SIGNAL TO SELECT DESTINATION REGISTER
+  input reg_dest_i, // CONTROL SIGNAL TO SELECT DESTINATION REGISTER
   input isbranchtaken_i, // CONTROL SIGNAL FOR WHETHER THE BRANCH IS TAKEN OR NOT
   input jump_i, // CONTROL SIGNAL FOR WHETHER IT IS A JUMP INSTRUCTION
   
@@ -33,7 +33,7 @@ reg [31:0] pc_new_reg;
 reg [4:0] write_addr_reg_reg;
 reg pc_select_reg;
 
-assign write_addr_reg_reg = reg_dst_i ? rs2_i : rd_i;
+assign write_addr_reg_reg = reg_dest_i ? rs2_i : rd_i;
 
 assign op1 = alusrc1_i ? pc_i : read_data1_i;
 assign op2 = alusrc2_i ? offset_i : read_data2_i;

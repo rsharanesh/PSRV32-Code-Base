@@ -40,8 +40,9 @@ wire [31:0] d_offset; // offset
 //from decode_exceute_register to execute_stage
 wire [31:0] de_pc; // program counter
 wire [31:0] de_pc_src; // program counter source
-wire [4:0] de_write_addr_reg; // write address register
-wire [31:0] de_write_data_reg; // write data register
+wire [31:0] de_instruction; // instruction word
+// wire [4:0] de_write_addr_reg; // write address register
+// wire [31:0] de_write_data_reg; // write data register
 wire de_reg_write; // write register control signal
 wire [6:0] de_opcode; // instruction opcode
 wire [2:0] de_funct3; // instruction funct3
@@ -50,6 +51,17 @@ wire [31:0] de_read_data2; // read data2
 wire [4:0] de_alusrc1; // alusrc1
 wire [4:0] de_alusrc2; // alusrc2
 wire [4:0] de_rd; // rd
+wire [31:0] de_offset; // offset
+wire [1:0] de_mem_to_reg; // memory to register -----------name be careful------
+wire de_reg_dest; // register destination
+wire de_isbranchtaken; // branch taken control signal
+wire de_jump; // jump control signal
+wire [5:0] de_alu_op; // alu operation control signal
+wire [31:0] de_rs1; // rs1
+wire [31:0] de_rs2; // rs2
+wire [31:0] de_rd; // rd
+wire [31:0] read_data1; // read data1
+wire [31:0] read_data2; // read data2
 wire [31:0] de_offset; // offset
 
 //from execute_stage to excecute_memory_register
@@ -61,6 +73,9 @@ wire e_isbranchtaken; // branch taken control signal
 wire e_jump; // jump control signal
 wire [31:0] e_alu_result; // alu result
 wire [31:0] e_pc_new; // program counter new
+wire [31:0] e_read_data2; // read data2
+wire [31:0] e_write_addr_reg; // write address register
+wire e_pc_select; // program counter mux select signal
 
 //from excecute_memory_register to memory_stage
 wire [5:0] em_alu_op; // alu operation
@@ -85,7 +100,20 @@ wire [31:0] mw_mem_read_data; //mem data read
 //from writeback_pipeline
 wire [1:0] w_dmem_to_reg; //mem to reg control signal
 
+//control signals ouputs
+wire ctrl_alusrc1; // alu source1 control signal
+wire ctrl_alusrc2; // alu source2 control signal
+wire [1:0] ctrl_dmem_to_reg; //mem to reg control signal
+wire ctrl_reg_write; // write register control signal
+wire ctrl_reg_dest; // reg destination control signal
+wire ctrl_mem_read; // mem read control signal
+wire ctrl_mem_write; // mem write control signal
+wire ctrl_isbranchtaken; // branch taken control signal
+wire ctrl_jump; // jump control signal
+wire [5:0] ctrl_alu_op; // alu operation code
 
+//exceute_stage output
+wire [31:0] alu_result; // alu result
 //Instantiating all the modules
 //1. Fetch module
 // -- the inputs are firstly geneerated within this code and hence they wont with the wire tag
@@ -116,9 +144,10 @@ pipeline_decode m1(
     .clk_i(clk),
     .instruction_i(fd_instruction),
     .pcsrc_i(fd_pc_src),
-    .write_addr_reg_i(), /////
-    .write_data_reg_i(), /////
-    .reg_write_i(), /////
+    .pc_i(fd_pc),
+    .write_addr_reg_i(), /////coming back from wb
+    .write_data_reg_i(), /////coming back from wb
+    .reg_write_i(), /////coming from mem stage
 
     .instruction_o(d_instruction),
     .opcode_o(d_opcode),
@@ -136,32 +165,33 @@ control p0(
     .reset_i(reset),
     .instruction_i(d_instruction),
 
-    .alusrc1_o(), /////
-    .alusrc2_o(), /////
-    .dmem_to_reg_o(), /////
-    .reg_write_o(), /////
-    .reg_dest_o(), /////
-    .mem_read_o(), /////
-    .mem_write_o(), /////
-    .isbranchtaken_o(), /////
-    .jump_o(), /////
-    .alu_op_o(), /////
+    .alusrc1_o(ctrl_alusrc1), /////added
+    .alusrc2_o(ctrl_alusrc2), /////added
+    .dmem_to_reg_o(ctrl_dmem_to_reg), /////added
+    .reg_write_o(ctrl_reg_write), /////added
+    .reg_dest_o(ctrl_reg_dest), /////added
+    .mem_read_o(ctrl_mem_read), /////added
+    .mem_write_o(ctrl_mem_write), /////added
+    .isbranchtaken_o(ctrl_isbranchtaken), /////added
+    .jump_o(ctrl_jump), /////added
+    .alu_op_o(ctrl_alu_op), /////added
 );
 
 pipereg_decode_exceute n1(
     .clk_i(clk),
     .pc_src_i(fd_pc_src),
     .pc_i(fd_pc),
+    .instruction_i(d_instruction),
     .opcode_i(d_opcode),
     .funct3_i(d_funct3),
-    .alu_src1_i(), //////
-    .alu_src2_i(), /////
-    .dmemm_to_reg_i(), /////
-    .reg_write_i(), /////
-    .reg_dest_i(), /////
-    .isbranchtaken_i(), /////
-    .jump_i(), /////
-    .alu_op_i(), /////
+    .alu_src1_i(ctrl_alusrc1), //////added
+    .alu_src2_i(ctrl_alusrc2), /////added
+    .dmemm_to_reg_i(ctrl_dmem_to_reg), /////added
+    .reg_write_i(ctrl_reg_write), /////added
+    .reg_dest_i(ctrl_reg_dest), /////added
+    .isbranchtaken_i(ctrl_mem_read), /////added
+    .jump_i(ctrl_jump), /////added
+    .alu_op_i(ctrl_alu_op), /////added
     .rs1_i(d_rs1),
     .rs2_i(d_rs2),
     .rd_i(d_rd),
@@ -171,30 +201,23 @@ pipereg_decode_exceute n1(
 
     .de_pcsrc_o(de_pcsrc),
     .de_pc_o(de_pc),
+    .de_instruction_o(de_instruction),
     .de_opcode_o(de_opcode),
     .de_funct3_o(de_funct3),
     .de_alu_src1_o(de_alu_src1),
     .de_alu_src2_o(de_alu_src2),
-    .de_mem_to_reg_o(), /////
+    .de_dmem_to_reg_o(de_dmem_to_reg), /////doubtful-----
     .de_reg_write_o(de_reg_write),
-    .de_reg_dest_o(de_rd), /////
+    .de_reg_dest_o(de_rd), /////added
     .de_isbranchtaken_o(de_isbranchtaken),
-    .de_jump_o(), /////
-    .de_alu_op_o(), /////
-    .de_rs1_o(), /////
-    .de_rs2_o(), /////
-    .de_rd_o(), /////
-    .de_read_data1_o(), /////
-    .de_read_data2_o(), /////
-    .de_offset_o() /////
-);
-
-alu p1(
-    .op1_i(), /////
-    .op2_i(), /////
-    .alu_op_i(), /////
-
-    .alu_result_o() /////
+    .de_jump_o(de_jump), /////added
+    .de_alu_op_o(de_alu_op), /////added
+    .de_rs1_o(de_rs1), /////added
+    .de_rs2_o(de_rs2), /////added
+    .de_rd_o(de_rd), /////added
+    .de_read_data1_o(de_read_data1), /////added
+    .de_read_data2_o(de_read_data2), /////added
+    .de_offset_o(de_offset) /////added
 );
 
 pipeline_exceute m2(
@@ -202,23 +225,44 @@ pipeline_exceute m2(
     .reset_i(reset),
     .pc_i(de_pc),
     .pcsrc_i(de_pcsrc),
-    .instruction_i(), /////check if it is needed or not, idts 
-    .read_data1_i(), /////
-    .read_data2_i(), /////
+    .instruction_i(de_instruction), /////
+    .read_data1_i(de_read_data1), /////
+    .read_data2_i(de_read_data2), /////
     .rs1_i(de_rs1),
     .rs2_i(de_rs2),
     .rd_i(de_rd),
     .aluop_i(de_alu_op),
-    .offset_i(), /////
+    .offset_i(de_offset), /////
+
+    .alusrc1_i(de_alu_src1), /////added
+    .alusrc2_i(de_alu_src2), /////added
+    .reg_dest_i(de_reg_dest), /////added
+    .isbranchtaken_i(de_isbranchtaken), /////added
+    .jump_i(de_jump), /////added
+
+    .alu_result_o(e_alu_result),/////added
+    .read_data2_o(e_read_data2), /////added
+    .write_addr_reg_o(e_write_addr_reg), /////added
+    .pc_new_o(e_pc_new), /////added
+    .pc_select_o(e_pc_select), /////added
 );
 
 pipereg_exceute_mem n2(
     .clk_i(clk),
     .reset_i(reset),
-    .pc_i(de_pc),
+    ////////.pc_i(de_pc),
     .pcsrc_i(de_pcsrc),
-    .instruction_i(), /////check if it is needed or not, idts
+    ///////.instruction_i(), /////check if it is needed or not, idts
 
+    .reg_write_i(de_reg_write),
+    .mem_read_i(de_mem_read),
+    .dmem_to_reg_i(de_dmem_to_reg),
+    .mem_to_write_i(de_mem_to_write),
+    .pc_new_i(), /////
+    .pc_select_i(), /////
+
+    .write_addr_reg_i(de_write_addr_reg), ///doubtfull
+    .alu_result_i()
     .read_data1_i(), /////
     .read_data2_i(), /////
     .rs1_i(de_rs1),
@@ -241,7 +285,7 @@ pipeline_memory m3(
     .mem_data_read_o() /////
 );
 
-pipeline_memory_writeback n4(
+pipeline_memory_writeback n3(
     .clk_i(clk),
     .reset_i(reset),
 
