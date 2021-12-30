@@ -100,9 +100,9 @@ wire [31:0] em_read_data2; // read data2
 // wire [31:0] em_pc_src; // program counter source
 
 //from memory_stage to memory_writeback_register
-wire m_mem_write; //mem write control signal
-wire m_mem_read; //mem read control signal
 wire [31:0] m_mem_read_data; //mem data read
+// wire m_mem_write; //mem write control signal
+// wire m_mem_read; //mem read control signal
 
 //from memory_writeback_register to writeback_stage
 wire mw_mem_write; //mem write control signal
@@ -270,13 +270,12 @@ pipereg_exceute_mem n2(
     .mem_read_i(de_mem_read),
     .dmem_to_reg_i(de_dmem_to_reg),
     .mem_to_write_i(de_mem_to_write),
-    .pc_new_i(), /////
-    .pc_select_i(), /////
+    .pc_new_i(e_pc_new), /////added
+    .pc_select_i(e_pc_select), /////added
 
-    .write_addr_reg_i(de_write_addr_reg), ///doubtfull
-    .alu_result_i()
-    .read_data1_i(), /////
-    .read_data2_i(), /////
+    .write_addr_reg_i(e_write_addr_reg), ///doubtfull
+    .alu_result_i(e_alu_result), /////added
+    .read_data2_i(e_read_data2), /////added
 
     .em_pcsrc_o(em_pcsrc), /////added
     .em_reg_write_o(em_reg_write), /////added
@@ -293,12 +292,12 @@ pipereg_exceute_mem n2(
 pipeline_memory m3(
     .clk_i(clk),
     .reset_i(reset),
-    .alu_result_i(), /////
-    .read_data2_i(), /////
-    .mem_write_i(), /////
-    .mem_read_i(), /////
+    .alu_result_i(em_alu_result), /////added
+    .read_data2_i(em_read_data2), /////added
+    .mem_write_i(em_mem_write), /////added
+    .mem_read_i(em_mem_read), /////added
 
-    .mem_data_read_o() /////
+    .mem_data_read_o(m_mem_read_data) /////added
 );
 
 pipeline_memory_writeback n3(
