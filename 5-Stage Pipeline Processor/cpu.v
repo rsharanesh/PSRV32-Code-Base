@@ -84,6 +84,7 @@ wire em_mem_read; // memory read control signal
 wire [1:0] em_dmem_to_reg; // memory to register
 wire em_mem_write; // memory write control signal
 wire [31:0] em_pc_new; // program counter new
+wire [31:0] em_offset; // offset
 wire em_pc_select; // program counter mux select signal
 wire [4:0] em_write_addr_reg; // write address register
 wire [31:0] em_alu_result; // alu result
@@ -105,9 +106,15 @@ wire [31:0] m_mem_read_data; //mem data read
 // wire m_mem_read; //mem read control signal
 
 //from memory_writeback_register to writeback_stage
-wire mw_mem_write; //mem write control signal
-wire mw_mem_read; //mem read control signal
-wire [31:0] mw_mem_read_data; //mem data read
+wire [31:0] mw_mem_data_read; //data from memory
+wire [31:0] mw_alu_result; //result of the ALU
+wire [31:0] mw_write_addr_reg; //address of the register to write to
+wire [1:0] mw_dmem_to_reg; //memory to register muxsignal
+wire mw_reg_write; //control signal to assert when writing to memory
+
+// wire mw_mem_write; //mem write control signal
+// wire mw_mem_read; //mem read control signal
+// wire [31:0] mw_mem_read_data; //mem data read
 
 //from writeback_pipeline
 wire [1:0] w_dmem_to_reg; //mem to reg control signal
@@ -269,6 +276,7 @@ pipereg_exceute_mem n2(
     .reg_write_i(de_reg_write),
     .mem_read_i(de_mem_read),
     .dmem_to_reg_i(de_dmem_to_reg),
+    .offset_i(de_offset), /////
     .mem_to_write_i(de_mem_to_write),
     .pc_new_i(e_pc_new), /////added
     .pc_select_i(e_pc_select), /////added
@@ -280,6 +288,7 @@ pipereg_exceute_mem n2(
     .em_pcsrc_o(em_pcsrc), /////added
     .em_reg_write_o(em_reg_write), /////added
     .em_mem_read_o(em_mem_read), /////added
+    .em_offset_o(em_offset), /////
     .em_dmem_to_reg_o(em_dmem_to_reg), /////added
     .em_mem_write_o(em_mem_write), /////added
     .em_pc_new_o(em_pc_new), /////added
@@ -304,28 +313,30 @@ pipeline_memory_writeback n3(
     .clk_i(clk),
     .reset_i(reset),
 
-    .mem_data_read_i(), /////
-    .alu_result_i(), /////
-    .write_reg_i(), /////
-    .mem_to_reg_i(), /////
-    .reg_write_i(), /////
+    .mem_data_read_i(m_mem_read_data), /////added
+    .alu_result_i(em_alu_result), /////added
+    .write_addr_reg_i(em_write_addr_reg), /////added
+    .offset_i(em_offset), /////added
+    .dmem_to_reg_i(em_dmem_to_reg), /////added
+    .reg_write_i(em_reg_write), /////added
 
-    .data_read_o() /////
-    .alu_result_o() /////
-    .write_reg_o() /////
-    .mem_to_reg_o() /////
-    .reg_write_o() /////
+    .mw_mem_data_read_o(mw_mem_data_read) /////added
+    .mw_alu_result_o(mw_alu_result) /////added
+    .mw_write_addr_reg_o(mw_write_addr_reg) /////added
+    .mw_dmem_to_reg_o(mw_dmem_to_reg) /////added
+    .mw_reg_write_o(mw_reg_write) /////added
+    .mw_offset_o(mw_offset) /////added
 );
 
 pipeline_writeback m4(
     .clk_i(clk),
     .reset_i(reset),
 
-    .mem_data_read_i(), /////
-    .alu_result_i(), /////
-    .pc_src_i(), /////
-    .offset_i(), /////
-    .dmem_to_reg_i(), /////
+    .mem_data_read_i(mw_mem_data_read), /////added
+    .alu_result_i(mw_alu_result), /////added
+    .pc_new_i(), /////added
+    .offset_i(mw_offset), /////added
+    .dmem_to_reg_i(mw_dmem_to_reg), /////added
 
     .write_data_reg_o() /////
 );
