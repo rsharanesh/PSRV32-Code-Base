@@ -78,14 +78,26 @@ wire [31:0] e_write_addr_reg; // write address register
 wire e_pc_select; // program counter mux select signal
 
 //from excecute_memory_register to memory_stage
-wire [5:0] em_alu_op; // alu operation
-wire em_alu_src1; // alu source1 control signal
-wire em_alu_src2; // alu source2 control signal
-wire em_reg_dst; // reg destination control signal
-wire em_isbranchtaken; // branch taken control signal
-wire em_jump; // jump control signal
-wire [31:0] em_alu_result; // alu result
+wire [31:0] em_pcsrc; // program counter source
+wire em_reg_write; // write register control signal
+wire em_mem_read; // memory read control signal
+wire [1:0] em_dmem_to_reg; // memory to register
+wire em_mem_write; // memory write control signal
 wire [31:0] em_pc_new; // program counter new
+wire em_pc_select; // program counter mux select signal
+wire [4:0] em_write_addr_reg; // write address register
+wire [31:0] em_alu_result; // alu result
+wire [31:0] em_read_data2; // read data2
+
+// wire [5:0] em_alu_op; // alu operation
+// wire em_alu_src1; // alu source1 control signal
+// wire em_alu_src2; // alu source2 control signal
+// wire em_reg_dst; // reg destination control signal
+// wire em_isbranchtaken; // branch taken control signal
+// wire em_jump; // jump control signal
+// wire [31:0] em_alu_result; // alu result
+// wire [31:0] em_pc_new; // program counter new
+// wire [31:0] em_pc_src; // program counter source
 
 //from memory_stage to memory_writeback_register
 wire m_mem_write; //mem write control signal
@@ -265,13 +277,17 @@ pipereg_exceute_mem n2(
     .alu_result_i()
     .read_data1_i(), /////
     .read_data2_i(), /////
-    .rs1_i(de_rs1),
-    .rs2_i(de_rs2),
-    .rd_i(de_rd),
-    .aluop_i(de_alu_op),
-    .offset_i(), /////
-    .alusrc1_i(), /////
-    .alusrc2_i() /////
+
+    .em_pcsrc_o(em_pcsrc), /////added
+    .em_reg_write_o(em_reg_write), /////added
+    .em_mem_read_o(em_mem_read), /////added
+    .em_dmem_to_reg_o(em_dmem_to_reg), /////added
+    .em_mem_write_o(em_mem_write), /////added
+    .em_pc_new_o(em_pc_new), /////added
+    .em_pc_select_o(em_pc_select), /////added
+    .em_write_addr_reg_o(em_write_addr_reg), /////added
+    .em_alu_result_o(em_alu_result), /////added
+    .em_read_data2_o(em_read_data2), /////added
 );
 
 pipeline_memory m3(
