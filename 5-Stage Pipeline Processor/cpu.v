@@ -117,7 +117,7 @@ wire mw_reg_write; //control signal to assert when writing to memory
 // wire [31:0] mw_mem_read_data; //mem data read
 
 //from writeback_pipeline
-wire [1:0] w_dmem_to_reg; //mem to reg control signal
+wire [31:0] w_; //mem to reg control signal
 
 //control signals ouputs
 wire ctrl_alusrc1; // alu source1 control signal
@@ -164,9 +164,9 @@ pipeline_decode m1(
     .instruction_i(fd_instruction),
     .pcsrc_i(fd_pc_src),
     .pc_i(fd_pc),
-    .write_addr_reg_i(), /////coming back from wb
-    .write_data_reg_i(), /////coming back from wb
-    .reg_write_i(), /////coming from mem stage
+    .write_addr_reg_i(mw_write_addr_reg), /////added---coming back from wb
+    .write_data_reg_i(w_write_data_reg), /////coming back from wb
+    .reg_write_i(mw_reg_write), /////added---coming from mem stage
 
     .instruction_o(d_instruction),
     .opcode_o(d_opcode),
@@ -334,11 +334,11 @@ pipeline_writeback m4(
 
     .mem_data_read_i(mw_mem_data_read), /////added
     .alu_result_i(mw_alu_result), /////added
-    .pc_new_i(), /////added
+    .pc_new_i(), /////doubtfull-------whatisthis
     .offset_i(mw_offset), /////added
     .dmem_to_reg_i(mw_dmem_to_reg), /////added
 
-    .write_data_reg_o() /////
+    .write_data_reg_o(w_write_data_reg) /////added
 );
 
 endmodule
