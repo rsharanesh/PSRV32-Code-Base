@@ -4,7 +4,7 @@
 module execute_memory_register (
     input clk_i, //Clock input
     input reset_i, //Reset input
-    
+
     input [31:0] pcsrc_i, //PC source input
     input [31:0] pc_new_i,
     input [31:0] offset_i,

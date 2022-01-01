@@ -244,13 +244,12 @@ pipereg_decode_exceute n1(
 pipeline_exceute m2(
     .clk_i(clk),
     .reset_i(reset),
-    
+
     .pc_i(de_pc),
     .pcsrc_i(de_pcsrc),
     .instruction_i(de_instruction), /////
     .read_data1_i(de_read_data1), /////
     .read_data2_i(de_read_data2), /////
-    .rs1_i(de_rs1),
     .rs2_i(de_rs2),
     .rd_i(de_rd),
     .aluop_i(de_alu_op),
