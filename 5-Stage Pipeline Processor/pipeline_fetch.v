@@ -11,9 +11,9 @@ module pipeline_fetch(
     output [31:0] pcsrc_o, //Updated Program Counter
 );
 
-// -----------------
+// -------------------------
 // Registers&Wires
-// -----------------
+// -------------------------
 
 reg [31:0] i_mem [0:31]; //Instruction Memory
 reg [31:0] pc_reg; //Program Counter register
