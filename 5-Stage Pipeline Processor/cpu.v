@@ -244,6 +244,7 @@ pipereg_decode_exceute n1(
 pipeline_exceute m2(
     .clk_i(clk),
     .reset_i(reset),
+    
     .pc_i(de_pc),
     .pcsrc_i(de_pcsrc),
     .instruction_i(de_instruction), /////
