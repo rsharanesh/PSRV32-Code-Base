@@ -14,7 +14,20 @@
 `include "pipereg_memory_writeback.v"
 
 module testbench;
-  reg clk;
-  reg reset;
+    reg clk;
+    reg reset;
 
-  
+    wire [31:0] pc;
+
+  cpu cpu_dut(
+      clk, reset, pc
+  );
+
+  initial begin
+      clk = 0;
+      reset = 0;
+  end
+
+  always #5  clk =  ! clk;
+
+endmodule
