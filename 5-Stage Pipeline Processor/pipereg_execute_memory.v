@@ -1,3 +1,6 @@
+//  Sharanesh: Verified
+//  Phani:
+
 module execute_memory_register (
     input clk_i, //Clock input
     input reset_i, //Reset input
@@ -10,7 +13,7 @@ module execute_memory_register (
     input mem_read_i, //mem read
     input [1:0] dmem_to_reg_i, //mem2reg
     input mem_write_i, //mem write
-    
+
     input pc_select_i, 
 
     input [4:0] write_addr_reg_i,
@@ -18,14 +21,14 @@ module execute_memory_register (
     input [31:0] read_data2_i,
 
     output [31:0] em_pcsrc_o,
-    
+    output [31:0] em_pc_new_o,
+    output [31:0] em_offset_o,
+
     output em_reg_write_o,
     output em_mem_read_o,
     output [1:0] em_dmem_to_reg_o,
     output em_mem_write_o,
-    output [31:0] em_pc_new_o,
-
-    output [31:0] em_offset_o,
+    
     output em_pc_select_o,
 
     output [4:0] em_write_addr_reg_o,
