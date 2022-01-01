@@ -3,7 +3,8 @@ module pipeline_fetch(
     input reset_i, //Reset-input
 
     input pc_select_i, //PC Source input
-    input [31:0] pc_branch_i, //Updated Program Counter from EX stage for a branch instruction (Should be pc_new uniformly)
+    input [31:0] pc_new_i, //Updated Program Counter from EX stage for a branch instruction (Should be pc_new uniformly)
+    input [31:0] prev_pcsrc_i, //Old Program Counter Source
 
     output [31:0] instruction_o, //The fetched instruction from the memory
     output [31:0] pc_o, // Current program counter
