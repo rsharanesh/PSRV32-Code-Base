@@ -40,33 +40,27 @@ wire [4:0] d_rd; // rd
 wire [31:0] d_offset; // offset
 
 //from decode_exceute_register to execute_stage
-wire [31:0] de_pc; // program counter
 wire [31:0] de_pc_src; // program counter source
+wire [31:0] de_pc; // program counter
 wire [31:0] de_instruction; // instruction word
-// wire [4:0] de_write_addr_reg; // write address register
-// wire [31:0] de_write_data_reg; // write data register
-wire de_reg_write; // write register control signal
 wire [6:0] de_opcode; // instruction opcode
 wire [2:0] de_funct3; // instruction funct3
+wire [31:0] de_rs1; // rs1
+wire [31:0] de_rs2; // rs2
+wire [31:0] de_rd; // rd
 wire [31:0] de_read_data1; // read data1
 wire [31:0] de_read_data2; // read data2
+wire [31:0] de_offset; // offset
 wire [4:0] de_alusrc1; // alusrc1
 wire [4:0] de_alusrc2; // alusrc2
-wire [4:0] de_rd; // rd
-wire [31:0] de_offset; // offset
 wire [1:0] de_mem_to_reg; // memory to register -----------name be careful------
+wire de_reg_write; // write register control signal
 wire de_reg_dest; // register destination
 wire de_mem_read; // memory read control signal
 wire de_mem_write; // memory write control signal
 wire de_isbranchtaken; // branch taken control signal
 wire de_jump; // jump control signal
 wire [5:0] de_alu_op; // alu operation control signal
-wire [31:0] de_rs1; // rs1
-wire [31:0] de_rs2; // rs2
-wire [31:0] de_rd; // rd
-wire [31:0] read_data1; // read data1
-wire [31:0] read_data2; // read data2
-wire [31:0] de_offset; // offset
 
 //from execute_stage to excecute_memory_register
 wire [5:0] e_alu_op; // alu operation
@@ -239,7 +233,7 @@ pipereg_decode_exceute n1(
     .de_alu_src2_o(de_alu_src2),
     .de_dmem_to_reg_o(de_dmem_to_reg), /////doubtful-----
     .de_reg_write_o(de_reg_write),
-    .de_reg_dest_o(de_rd), /////added
+    .de_reg_dest_o(de_reg_dest), /////added
     .de_mem_read_o(de_mem_read), /////added
     .de_mem_write_o(de_mem_write), /////added
     .de_isbranchtaken_o(de_isbranchtaken),
