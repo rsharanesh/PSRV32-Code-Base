@@ -19,18 +19,17 @@ wire [31:0] pc_new; // program counter branch from ex stage
 // from fetch_stage to fetch_decode_register
 wire [31:0] f_instruction; // instruction word
 wire [31:0] f_pc; // program counter
-wire [31:0] f_pc_src; // program counter source
+wire [31:0] f_pcsrc; // program counter source
 
 // from fetch_decode_register to decode_stage
 wire [31:0] fd_instruction; // instruction word
 wire [31:0] fd_pc; // program counter
-wire [31:0] fd_pc_src; // program counter source
+wire [31:0] fd_pcsrc; // program counter source
 
 //from decode_stage to decode_exceute_register
-wire [31:0] d_instruction; // instruction word
-wire [4:0] d_write_addr_reg; // write address register
-wire [31:0] d_write_data_reg; // write data register
-wire d_reg_write; // write register control signal
+// wire [4:0] d_write_addr_reg; // write address register
+// wire [31:0] d_write_data_reg; // write data register
+// wire d_reg_write; // write register control signal
 wire [6:0] d_opcode; // instruction opcode
 wire [2:0] d_funct3; // instruction funct3
 wire [31:0] d_read_data1; // read data1
@@ -148,30 +147,29 @@ pipeline_fetch m0(
 
     .instruction_o(f_instruction),
     .pc_o(f_pc),
-    .pc_src_o(f_pc_src)
+    .pc_src_o(f_pcsrc)
 );
 
 pipereg_fetch_decode n0(
     .clk_i(clk),
     .instruction_i(f_instruction),
-    .pcsrc_i(f_pc_src),
+    .pcsrc_i(f_pcsrc),
     .pc_i(f_pc),
 
     .fd_instruction_o(fd_instruction),
     .fd_pc_o(fd_pc),
-    .fd_pcsrc_o(fd_pc_src)
+    .fd_pcsrc_o(fd_pcsrc)
 );
 
 pipeline_decode m1(
     .clk_i(clk),
     .instruction_i(fd_instruction),
-    .pcsrc_i(fd_pc_src),
+    .pcsrc_i(fd_pcsrc),
     .pc_i(fd_pc),
     .write_addr_reg_i(mw_write_addr_reg), /////added---coming back from wb
     .write_data_reg_i(w_write_data_reg), /////coming back from wb
     .reg_write_i(mw_reg_write), /////added---coming from mem stage
 
-    .instruction_o(d_instruction),
     .opcode_o(d_opcode),
     .funct3_o(d_funct3),
     .read_data1_o(d_read_data1),
@@ -201,7 +199,7 @@ control p0(
 
 pipereg_decode_exceute n1(
     .clk_i(clk),
-    .pc_src_i(fd_pc_src),
+    .pc_src_i(fd_pcsrc),
     .pc_i(fd_pc),
     .instruction_i(d_instruction),
     .opcode_i(d_opcode),
