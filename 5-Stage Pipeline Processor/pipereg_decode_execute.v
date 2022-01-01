@@ -1,3 +1,6 @@
+//  Sharanesh: Verified
+//  Phani:
+
 module decode_exceute_register (
     input clk_i, //Clock input
 
@@ -52,7 +55,6 @@ module decode_exceute_register (
     output de_isbranchtaken_o, //branch taken
     output de_jump_o, // determines if jump is the instruction or not
     output [5:0] de_alu_op_o, //alu op code 
-        
 );
 
 reg [31:0] decode_exceut_pcsrc_reg; //Program counter before update
