@@ -1,4 +1,7 @@
-module memory( 
+//  Sharanesh: Verified
+//  Phani:
+m
+odule memory( 
     input clk_i,//clock input
     input reset_i,//reset input
 
