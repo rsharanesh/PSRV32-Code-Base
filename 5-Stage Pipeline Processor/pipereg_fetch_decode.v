@@ -1,3 +1,6 @@
+//  Sharanesh: Verified
+//  Phani:
+
 // This module is the depection of the fetch-decode pipeline register
 // This register just simply holds the instruction and the PC
 
