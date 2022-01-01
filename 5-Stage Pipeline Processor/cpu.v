@@ -316,6 +316,7 @@ pipeline_memory_writeback n3(
     .clk_i(clk),
     .reset_i(reset),
 
+    .pcsrc_i(em_pcsrc), /////added
     .mem_data_read_i(m_mem_read_data), /////added
     .alu_result_i(em_alu_result), /////added
     .write_addr_reg_i(em_write_addr_reg), /////added
@@ -323,12 +324,13 @@ pipeline_memory_writeback n3(
     .dmem_to_reg_i(em_dmem_to_reg), /////added
     .reg_write_i(em_reg_write), /////added
 
-    .mw_mem_data_read_o(mw_mem_data_read) /////added
-    .mw_alu_result_o(mw_alu_result) /////added
-    .mw_write_addr_reg_o(mw_write_addr_reg) /////added
-    .mw_dmem_to_reg_o(mw_dmem_to_reg) /////added
+    .mw_pcsrc_o(mw_pcsrc), /////added
+    .mw_mem_data_read_o(mw_mem_data_read), /////added
+    .mw_alu_result_o(mw_alu_result), /////added
+    .mw_write_addr_reg_o(mw_write_addr_reg), /////added
+    .mw_offset_o(mw_offset), /////added
+    .mw_dmem_to_reg_o(mw_dmem_to_reg), /////added
     .mw_reg_write_o(mw_reg_write) /////added
-    .mw_offset_o(mw_offset) /////added
 );
 
 pipeline_writeback m4(
