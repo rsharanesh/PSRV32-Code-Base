@@ -271,33 +271,34 @@ pipeline_exceute m2(
 pipereg_exceute_mem n2(
     .clk_i(clk),
     .reset_i(reset),
-    ////////.pc_i(de_pc),
+
     .pcsrc_i(de_pcsrc),
-    ///////.instruction_i(), /////check if it is needed or not, idts
+    .pc_new_i(e_pc_new), /////added
+    .pc_select_i(e_pc_select), /////added
 
     .reg_write_i(de_reg_write),
     .mem_read_i(de_mem_read),
     .dmem_to_reg_i(de_dmem_to_reg),
-    .offset_i(de_offset), /////
-    .mem_to_write_i(de_mem_to_write),
-    .pc_new_i(e_pc_new), /////added
-    .pc_select_i(e_pc_select), /////added
+    .mem_write_i(de_mem_write),
 
     .write_addr_reg_i(e_write_addr_reg), ///doubtfull
     .alu_result_i(e_alu_result), /////added
     .read_data2_i(e_read_data2), /////added
+    .offset_i(de_offset), /////
 
     .em_pcsrc_o(em_pcsrc), /////added
-    .em_reg_write_o(em_reg_write), /////added
-    .em_mem_read_o(em_mem_read), /////added
-    .em_offset_o(em_offset), /////
-    .em_dmem_to_reg_o(em_dmem_to_reg), /////added
-    .em_mem_write_o(em_mem_write), /////added
     .em_pc_new_o(em_pc_new), /////added
     .em_pc_select_o(em_pc_select), /////added
+
+    .em_reg_write_o(em_reg_write), /////added
+    .em_mem_read_o(em_mem_read), /////added
+    .em_dmem_to_reg_o(em_dmem_to_reg), /////added
+    .em_mem_write_o(em_mem_write), /////added
+    
     .em_write_addr_reg_o(em_write_addr_reg), /////added
     .em_alu_result_o(em_alu_result), /////added
     .em_read_data2_o(em_read_data2), /////added
+    .em_offset_o(em_offset), /////
 );
 
 pipeline_memory m3(

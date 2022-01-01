@@ -7,33 +7,31 @@ module execute_memory_register (
 
     input [31:0] pcsrc_i, //PC source input
     input [31:0] pc_new_i,
-    input [31:0] offset_i,
+    input pc_select_i,
 
     input reg_write_i, //reg write (enables reg for writings)
     input mem_read_i, //mem read
     input [1:0] dmem_to_reg_i, //mem2reg
     input mem_write_i, //mem write
 
-    input pc_select_i, 
-
     input [4:0] write_addr_reg_i,
     input [31:0] alu_result_i,  // ALU RESULT 
     input [31:0] read_data2_i,
+    input [31:0] offset_i,
 
     output [31:0] em_pcsrc_o,
     output [31:0] em_pc_new_o,
-    output [31:0] em_offset_o,
-
+    output em_pc_select_o,
+    
     output em_reg_write_o,
     output em_mem_read_o,
     output [1:0] em_dmem_to_reg_o,
     output em_mem_write_o,
-    
-    output em_pc_select_o,
 
     output [4:0] em_write_addr_reg_o,
     output [31:0] em_alu_result_o,
     output [31:0] em_read_data2_o    
+    output [31:0] em_offset_o
 );
 
 reg [31:0] execute_memory_pcsrc_reg;
