@@ -1,3 +1,6 @@
+//  Sharanesh:
+//  Phani:
+
 module cpu(
     input clk_i, // clock input
     input reset_i, // reset input
@@ -150,9 +153,9 @@ pipeline_fetch m0(
 
 pipereg_fetch_decode n0(
     .clk_i(clk),
-    .f_instruction_i(f_instruction),
-    .f_pcsrc_i(f_pc_src),
-    .f_pc_i(f_pc),
+    .instruction_i(f_instruction),
+    .pcsrc_i(f_pc_src),
+    .pc_i(f_pc),
 
     .fd_instruction_o(fd_instruction),
     .fd_pc_o(fd_pc),
