@@ -5,7 +5,7 @@ module cpu(
     input clk_i, // clock input
     input reset_i, // reset input
 
-    output [31:0] pc_o, // program counter
+    output [31:0] pc_o // program counter
 );
 
 wire clk; // clock input
@@ -191,7 +191,7 @@ control p0(
     .mem_write_o(ctrl_mem_write), /////added
     .isbranchtaken_o(ctrl_isbranchtaken), /////added
     .jump_o(ctrl_jump), /////added
-    .alu_op_o(ctrl_alu_op), /////added
+    .alu_op_o(ctrl_alu_op) /////added
 );
 
 pipereg_decode_exceute n1(
@@ -299,7 +299,7 @@ pipereg_exceute_mem n2(
     .em_write_addr_reg_o(em_write_addr_reg), /////added
     .em_alu_result_o(em_alu_result), /////added
     .em_read_data2_o(em_read_data2), /////added
-    .em_offset_o(em_offset), /////
+    .em_offset_o(em_offset) /////
 );
 
 pipeline_memory m3(

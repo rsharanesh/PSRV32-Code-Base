@@ -28,8 +28,8 @@ module pipeline_decode(
 // Registers&Wires
 // -----------------
 //////////reg [31:0] instruction;//Instruction register
-reg [6:0] opcode_reg, //Opcode of the instruction
-reg [2:0] funct3_reg, //Funct3 of the instruction
+reg [6:0] opcode_reg; //Opcode of the instruction
+reg [2:0] funct3_reg; //Funct3 of the instruction
 
 reg [4:0] rs1_reg; //source operand-1 address register
 reg [4:0] rs2_reg; //source operand-2 address register
@@ -66,14 +66,15 @@ always @(*) begin
     if(instruction_i[6:0] == 7'b0100011) begin // STORE type
         offset_reg <= {{20{instruction_i[31]}},{instruction_i[31:25],instruction_i[11:7]}};
     end
-    else if(instruction_i[6:0] == 7'0110111 || instruction_i[6:0] == 7'b0010111) begin // LUI and AUIPC type
+    else if(instruction_i[6:0] == 7'b0110111 || instruction_i[6:0] == 7'b0010111) begin // LUI and AUIPC type
         offset_reg <= {instruction_i[31:12],{12{1'b0}}};
     end
     else if(instruction_i[6:0] == 7'b1100011) begin // BRANCH type
-        offset_reg <= {{20{instruction_i[31]}},{instruction_i[31],instruction_i[7],instruction_i[30:25],instruction_i[11:8]}}
+        offset_reg <= {{20{instruction_i[31]}},{instruction_i[31],instruction_i[7],instruction_i[30:25],instruction_i[11:8]}};
     end
     else if(instruction_i[6:0] == 7'b1101111) begin // JAL type
         offset_reg <= {{12{instruction_i[31]}},{instruction_i[31],instruction_i[19:12],instruction_i[20],instruction_i[30:21]}};
+    end
     else begin // LOAD IMM(Immediate) type and JALR type
         offset_reg <= {{20{instruction_i[31]}},instruction_i[31:20]};
     end

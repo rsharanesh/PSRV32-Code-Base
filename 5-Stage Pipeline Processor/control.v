@@ -7,16 +7,16 @@ module control (
 
     input [31:0] instruction_i, //instruction input
 
-    output alusrc1_o; //alu source1 (1:pc, 0:read_data1)
-    output alusrc2_o; //alu source2 (1:immediate, 0:read_data2)
-    output [1:0] dmem_to_reg_o; //mem2reg (00:mem2reg, 01:alu_result_2reg, 10:pcsrc, 11: offset)
-    output reg_write_o; //reg write (enables reg for writing)
-    output reg_dest_o; //register destination (1:rs2, 0:rd) (selects destination register)
-    output mem_read_o; //mem read (enables mem read)
-    output mem_write_o; //mem write (enables mem write)
-    output isbranchtaken_o; //branch taken
-    output jump_o; // determines if jump is the instruction or not
-    output [5:0] alu_op_o; //alu op code 
+    output alusrc1_o, //alu source1 (1:pc, 0:read_data1)
+    output alusrc2_o, //alu source2 (1:immediate, 0:read_data2)
+    output [1:0] dmem_to_reg_o, //mem2reg (00:mem2reg, 01:alu_result_2reg, 10:pcsrc, 11: offset)
+    output reg_write_o, //reg write (enables reg for writing)
+    output reg_dest_o, //register destination (1:rs2, 0:rd) (selects destination register)
+    output mem_read_o, //mem read (enables mem read)
+    output mem_write_o, //mem write (enables mem write)
+    output isbranchtaken_o, //branch taken
+    output jump_o, // determines if jump is the instruction or not
+    output [5:0] alu_op_o //alu op code 
 );
 
 // ---------------
@@ -66,7 +66,7 @@ always @(instruction_i) begin
         AUIPC: begin
             alusrc1_reg = 1'b1;
             alusrc2_reg = 1'b1;
-            dmem_to_reg_reg = 1'b01; 
+            dmem_to_reg_reg = 1'b1; ////critical doubt
             reg_write_reg = 1'b1; 
             reg_dest_reg = 1'b0; 
             mem_read_reg = 1'b0; 

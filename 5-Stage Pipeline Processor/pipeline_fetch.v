@@ -12,7 +12,7 @@ module pipeline_fetch(
 
     output [31:0] instruction_o, //The fetched instruction from the memory
     output [31:0] pc_o, // Current program counter
-    output [31:0] pcsrc_o, //Updated Program Counter for the next instruction
+    output [31:0] pcsrc_o //Updated Program Counter for the next instruction
 );
 
 // -------------------------
