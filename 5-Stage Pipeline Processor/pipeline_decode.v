@@ -1,3 +1,6 @@
+//  Sharanesh: Verified
+//  Phani:
+
 module pipeline_decode(
     input clk_i, //Clock-input
     
