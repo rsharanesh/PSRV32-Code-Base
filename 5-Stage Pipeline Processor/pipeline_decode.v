@@ -9,7 +9,7 @@ module pipeline_decode(
     input [31:0] write_data_reg_i, //Data to be written in the write register (Coming from WB)
     input reg_write_i, //Control signal that determines if it is to write in the register or not
 
-    output [31:0] instruction_o, //Instruction output
+    //output [31:0] instruction_o, //Instruction output (redundant)
     output [6:0] opcode_o, //Opcode of the instruction
     output [2:0] funct3_o, //Funct3 of the instruction
 
@@ -76,7 +76,7 @@ always @(*) begin
     end
 end
 
-assign instruction_o = instruction_i;
+//assign instruction_o = instruction_i;
 assign opcode_o = opcode_reg;
 assign funct3_o = funct3_reg;
 assign rs1_o = rs1_reg;

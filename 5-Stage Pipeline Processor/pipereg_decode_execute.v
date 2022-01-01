@@ -8,6 +8,14 @@ module decode_exceute_register (
     input [6:0] opcode_i, //opcode
     input [2:0] funct3_i, //funct3 field
 
+    input [4:0] rs1_i, //rs1 field
+    input [4:0] rs2_i, //rs2 field
+    input [4:0] rd_i, //rd field    
+
+    input [31:0] read_data1_i, // data read from reg source-1
+    input [31:0] read_data2_i, // data read from reg source-2
+    input [31:0] offset_i, // sign extended offset
+
     input alusrc1_i, //alu source-1
     input alusrc2_i, //alu source-2
     input [1:0] dmem_to_reg_i, //mem2reg
@@ -19,20 +27,20 @@ module decode_exceute_register (
     input jump_i, // determines if jump is the instruction or not
     input [5:0] alu_op_i, //alu op code 
 
-    input [4:0] rs1_i, //rs1 field
-    input [4:0] rs2_i, //rs2 field
-    input [4:0] rd_i, //rd field    
-
-    input [31:0] read_data1_i, // data read from reg source-1
-    input [31:0] read_data2_i, // data read from reg source-2
-    input [31:0] offset_i, // sign extended offset
-
     output [31:0] de_pcsrc_o, //PC source output
     output [31:0] de_pc_o, //PC output
     output [31:0] de_instruction_o, //instruction output
 
     output [6:0] de_opcode_o, //opcode
     output [2:0] de_funct3_o, //funct3 field
+
+    output [4:0] de_rs1_o, //rs1 field
+    output [4:0] de_rs2_o, //rs2 field
+    output [4:0] de_rd_o, //rd field
+
+    output [31:0] de_read_data1_o, // data read from reg source-1
+    output [31:0] de_read_data2_o, // data read from reg source-2
+    output [31:0] de_offset_o // sign extended offset
 
     output de_alusrc1_o, //alu source
     output de_alusrc2_o, //alu source
@@ -44,14 +52,7 @@ module decode_exceute_register (
     output de_isbranchtaken_o, //branch taken
     output de_jump_o, // determines if jump is the instruction or not
     output [5:0] de_alu_op_o, //alu op code 
-
-    output [4:0] de_rs1_o, //rs1 field
-    output [4:0] de_rs2_o, //rs2 field
-    output [4:0] de_rd_o, //rd field
-
-    output [31:0] de_read_data1_o, // data read from reg source-1
-    output [31:0] de_read_data2_o, // data read from reg source-2
-    output [31:0] de_offset_o // sign extended offset
+        
 );
 
 reg [31:0] decode_exceut_pcsrc_reg; //Program counter before update

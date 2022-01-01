@@ -3,7 +3,8 @@
 
 module fetch_decode_register(
     input clk_i, //The Clock input
-
+    input reset_i, //The Reset input
+    
     input [31:0] f_instruction_i, // Instruction from fetch stage
     input [31:0] f_pcsrc_i, //PCsrc from the fetch stage
     input [31:0] f_pc_i, //PC curent from the fetch stage
