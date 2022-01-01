@@ -56,6 +56,8 @@ wire [4:0] de_rd; // rd
 wire [31:0] de_offset; // offset
 wire [1:0] de_mem_to_reg; // memory to register -----------name be careful------
 wire de_reg_dest; // register destination
+wire de_mem_read; // memory read control signal
+wire de_mem_write; // memory write control signal
 wire de_isbranchtaken; // branch taken control signal
 wire de_jump; // jump control signal
 wire [5:0] de_alu_op; // alu operation control signal
@@ -199,45 +201,50 @@ control p0(
 
 pipereg_decode_exceute n1(
     .clk_i(clk),
+
     .pc_src_i(fd_pcsrc),
     .pc_i(fd_pc),
     .instruction_i(d_instruction),
     .opcode_i(d_opcode),
     .funct3_i(d_funct3),
-    .alu_src1_i(ctrl_alusrc1), //////added
-    .alu_src2_i(ctrl_alusrc2), /////added
-    .dmemm_to_reg_i(ctrl_dmem_to_reg), /////added
-    .reg_write_i(ctrl_reg_write), /////added
-    .reg_dest_i(ctrl_reg_dest), /////added
-    .isbranchtaken_i(ctrl_mem_read), /////added
-    .jump_i(ctrl_jump), /////added
-    .alu_op_i(ctrl_alu_op), /////added
     .rs1_i(d_rs1),
     .rs2_i(d_rs2),
     .rd_i(d_rd),
     .read_data1_i(d_read_data1),
     .read_data2_i(d_read_data2),
     .offset_i(d_offset),
-
+    .alu_src1_i(ctrl_alusrc1), //////added
+    .alu_src2_i(ctrl_alusrc2), /////added
+    .dmemm_to_reg_i(ctrl_dmem_to_reg), /////added
+    .reg_write_i(ctrl_reg_write), /////added
+    .reg_dest_i(ctrl_reg_dest), /////added
+    .mem_read_i(ctrl_mem_read), /////added
+    .mem_write_i(ctrl_mem_write), /////added
+    .isbranchtaken_i(ctrl_mem_read), /////added
+    .jump_i(ctrl_jump), /////added
+    .alu_op_i(ctrl_alu_op), /////added
+    
     .de_pcsrc_o(de_pcsrc),
     .de_pc_o(de_pc),
     .de_instruction_o(de_instruction),
     .de_opcode_o(de_opcode),
     .de_funct3_o(de_funct3),
-    .de_alu_src1_o(de_alu_src1),
-    .de_alu_src2_o(de_alu_src2),
-    .de_dmem_to_reg_o(de_dmem_to_reg), /////doubtful-----
-    .de_reg_write_o(de_reg_write),
-    .de_reg_dest_o(de_rd), /////added
-    .de_isbranchtaken_o(de_isbranchtaken),
-    .de_jump_o(de_jump), /////added
-    .de_alu_op_o(de_alu_op), /////added
     .de_rs1_o(de_rs1), /////added
     .de_rs2_o(de_rs2), /////added
     .de_rd_o(de_rd), /////added
     .de_read_data1_o(de_read_data1), /////added
     .de_read_data2_o(de_read_data2), /////added
-    .de_offset_o(de_offset) /////added
+    .de_offset_o(de_offset), /////added
+    .de_alu_src1_o(de_alu_src1),
+    .de_alu_src2_o(de_alu_src2),
+    .de_dmem_to_reg_o(de_dmem_to_reg), /////doubtful-----
+    .de_reg_write_o(de_reg_write),
+    .de_reg_dest_o(de_rd), /////added
+    .de_mem_read_o(de_mem_read), /////added
+    .de_mem_write_o(de_mem_write), /////added
+    .de_isbranchtaken_o(de_isbranchtaken),
+    .de_jump_o(de_jump), /////added
+    .de_alu_op_o(de_alu_op) /////added
 );
 
 pipeline_exceute m2(
