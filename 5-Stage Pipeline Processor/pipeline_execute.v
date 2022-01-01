@@ -8,7 +8,7 @@ module execute(
   
   input [31:0] read_data1_i, // DATA READ FROM REGISTER SOURCE 1 - OP1
   input [31:0] read_data2_i, // DATA READ FROM REGISTER SOURCE 2 - OP2
-  input [4:0] rs1_i,  // ADDRESS OF REGISTER SOURCE 1
+  // (redundant in exceute stage) input [4:0] rs1_i,  // ADDRESS OF REGISTER SOURCE 1
   input [4:0] rs2_i,  // ADDRESS OF REGISTER SOURCE 2
   input [4:0] rd_i, // ADDRESS OF DESTINATION REGISTER
   input [5:0] aluop_i,  // ALU OPCODE
