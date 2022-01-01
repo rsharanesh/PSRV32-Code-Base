@@ -104,6 +104,7 @@ wire [31:0] m_mem_read_data; //mem data read
 // wire m_mem_read; //mem read control signal
 
 //from memory_writeback_register to writeback_stage
+wire [31:0] mw_pc_src; // program counter source
 wire [31:0] mw_mem_data_read; //data from memory
 wire [31:0] mw_alu_result; //result of the ALU
 wire [31:0] mw_write_addr_reg; //address of the register to write to
@@ -115,7 +116,7 @@ wire mw_reg_write; //control signal to assert when writing to memory
 // wire [31:0] mw_mem_read_data; //mem data read
 
 //from writeback_pipeline
-wire [31:0] w_; //mem to reg control signal
+wire [31:0] w_write_data_reg; //mem to reg control signal
 
 //control signals ouputs
 wire ctrl_alusrc1; // alu source1 control signal
@@ -138,8 +139,8 @@ wire [31:0] alu_result; // alu result
 pipeline_fetch m0(
     .clk_i(clk),
     .reset_i(reset),
-    .pc_select_i(), ////////////////fresh_inputs, need to generate
-    .pc_branch_i(), ////////////////fresh_inputs, need to generate
+    .pc_select_i(em_pc_select), ////////////////fresh_inputs, need to generate
+    .pc_branch_i(em_pc_new), ////////////////fresh_inputs, need to generate
 
     .instruction_o(f_instruction),
     .pc_o(f_pc),
@@ -337,9 +338,9 @@ pipeline_writeback m4(
     .clk_i(clk),
     .reset_i(reset),
 
+    .pcsrc_i(mw_pcsrc), /////doubtfull-------whatisthis
     .mem_data_read_i(mw_mem_data_read), /////added
     .alu_result_i(mw_alu_result), /////added
-    .pc_new_i(), /////doubtfull-------whatisthis
     .offset_i(mw_offset), /////added
     .dmem_to_reg_i(mw_dmem_to_reg), /////added
 
