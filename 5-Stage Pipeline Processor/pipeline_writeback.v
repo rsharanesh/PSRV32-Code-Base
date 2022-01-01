@@ -1,3 +1,6 @@
+//  Sharanesh: Verified
+//  Phani:
+
 module writeback(
     input clk_i; //clock input
     input reset_i; //reset input
