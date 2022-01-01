@@ -1,3 +1,6 @@
+//  Sharanesh: Verified
+//  Phani:
+
 module alu(
   input [31:0] op1_i, // operand-1 input
   input [31:0] op2_i, // operand-2 input
