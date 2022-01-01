@@ -1,3 +1,6 @@
+//  Sharanesh: Verified
+//  Phani:
+
 module pipeline_fetch(
     input clk_i, //Clock-input
     input reset_i, //Reset-input
@@ -9,14 +12,14 @@ module pipeline_fetch(
 
     output [31:0] instruction_o, //The fetched instruction from the memory
     output [31:0] pc_o, // Current program counter
-    output [31:0] pcsrc_o, //Updated Program Counter
+    output [31:0] pcsrc_o, //Updated Program Counter for the next instruction
 );
 
 // -------------------------
 // Registers&Wires
 // -------------------------
 
-reg [31:0] i_mem [0:31]; //Instruction Memory
+reg [31:0] i_mem [0:255]; //Instruction Memory
 reg [31:0] pc_reg; //Program Counter register
 reg [31:0] instruction_o_reg; //Instruction register for output
 reg [31:0] pc_temp; //Temporary Program Counter
