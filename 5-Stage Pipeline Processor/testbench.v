@@ -26,6 +26,8 @@ module testbench;
   initial begin
       clk = 0;
       reset = 0;
+      #300 $display("Starting simulation");
+      #300 $finish;
   end
 
   always #5  clk =  ! clk;
