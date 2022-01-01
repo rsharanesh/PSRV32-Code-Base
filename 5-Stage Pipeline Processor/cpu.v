@@ -13,7 +13,7 @@ wire reset; // reset input
 
 ///////////////////////Critical ones/////////////////////////
 wire pc_select; // program counter select
-wire [31:0] pc_branch; // program counter branch from ex stage
+wire [31:0] pc_new; // program counter branch from ex stage
 ////////////////////////////////////////////////////////////
 
 // from fetch_stage to fetch_decode_register
