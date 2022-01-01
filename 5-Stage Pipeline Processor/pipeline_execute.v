@@ -1,3 +1,6 @@
+//  Sharanesh: Verified
+//  Phani:
+
 module execute(
   input clk_i,  // CLOCK
   input reset_i,  // RESET
@@ -8,7 +11,7 @@ module execute(
   
   input [31:0] read_data1_i, // DATA READ FROM REGISTER SOURCE 1 - OP1
   input [31:0] read_data2_i, // DATA READ FROM REGISTER SOURCE 2 - OP2
-  // (redundant in exceute stage) input [4:0] rs1_i,  // ADDRESS OF REGISTER SOURCE 1
+ 
   input [4:0] rs2_i,  // ADDRESS OF REGISTER SOURCE 2
   input [4:0] rd_i, // ADDRESS OF DESTINATION REGISTER
   input [5:0] aluop_i,  // ALU OPCODE
@@ -109,3 +112,5 @@ assign read_data2_o = read_data2_i;
 assign write_addr_reg_o = write_addr_reg_reg;
 assign pc_new_o = pc_new_reg; 
 assign pc_select_o = pc_select_reg;
+
+endmodule
