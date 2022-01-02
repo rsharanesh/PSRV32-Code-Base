@@ -31,7 +31,7 @@ reg [31:0] mw_write_reg;
 reg [1:0] mw_mem_to_reg;
 reg reg_write_reg;
 
-always @(posedge clk ) begin
+always @(posedge clk) begin
     mw_pcsrc_reg <= pcsrc_i;
     mw_data_read_reg <= mem_data_read_i;
     mw_alu_result_reg <= alu_result_i;
@@ -42,7 +42,7 @@ always @(posedge clk ) begin
 end
 
 assign mw_pcsrc_o = mw_pcsrc_reg;
-assign mw_mem_data_read_o = ~reset_i & mw_data_read_reg;
+assign mw _mem_data_read_o = ~reset_i & mw_data_read_reg;
 assign mw_alu_result_o = ~reset_i & mw_alu_result_reg;
 assign mw_write_addr_reg_o = ~reset_i & mw_write_addr_reg_reg;
 assign mw_write_reg_o = ~reset_i & mw_write_reg;
