@@ -88,15 +88,6 @@ wire [4:0] em_write_addr_reg; // write address register
 wire [31:0] em_alu_result; // alu result
 wire [31:0] em_read_data2; // read data2
 
-// wire [5:0] em_alu_op; // alu operation
-// wire em_alu_src1; // alu source1 control signal
-// wire em_alu_src2; // alu source2 control signal
-// wire em_reg_dst; // reg destination control signal
-// wire em_isbranchtaken; // branch taken control signal
-// wire em_jump; // jump control signal
-// wire [31:0] em_alu_result; // alu result
-// wire [31:0] em_pc_new; // program counter new
-// wire [31:0] em_pc_src; // program counter source
 
 //from memory_stage to memory_writeback_register
 wire [31:0] m_mem_read_data; //mem data read

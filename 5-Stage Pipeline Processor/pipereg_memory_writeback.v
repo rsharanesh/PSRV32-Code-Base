@@ -13,7 +13,7 @@ module memory_writeback_register (
     input [1:0] dmem_to_reg_i,//memory to register muxsignal 
     input reg_write_i, //control signal to assert when writing to memory
 
-    output [31:0] mw_pcsrc_o; //PC source
+    output [31:0] mw_pcsrc_o, //PC source
     output [31:0] mw_mem_data_read_o, //data from memory
     output [31:0] mw_alu_result_o, //result of the ALU
     output [31:0] mw_write_addr_reg_o, //address of the register to write to

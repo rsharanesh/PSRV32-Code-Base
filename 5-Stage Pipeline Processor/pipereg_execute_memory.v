@@ -30,7 +30,7 @@ module execute_memory_register (
 
     output [4:0] em_write_addr_reg_o,
     output [31:0] em_alu_result_o,
-    output [31:0] em_read_data2_o    
+    output [31:0] em_read_data2_o,   
     output [31:0] em_offset_o
 );
 

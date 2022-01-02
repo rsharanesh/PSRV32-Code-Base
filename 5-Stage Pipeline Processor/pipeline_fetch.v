@@ -47,7 +47,7 @@ always @(posedge clk_i) begin
     end
     else begin
         pc_temp <= pc_reg + 4;
-        pc_reg <= (pc_select_i) ? pc_branch_i : pc_temp;
+        pc_reg <= (pc_select_i) ? pc_new_i : (pc_reg + 4);
         instruction_o_reg <= i_mem[pc_reg];
     end
 end

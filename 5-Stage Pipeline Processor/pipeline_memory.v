@@ -10,7 +10,7 @@ module memory(
     input mem_write_i, //enable the data write
     input mem_read_i, //enable the data read
 
-    output [31:0] mem_data_read_o, //data read from the memory cell
+    output [31:0] mem_data_read_o //data read from the memory cell
 );
 
 reg [31:0] data_memory_reg [0:255];
@@ -21,15 +21,16 @@ initial begin
 end
 
 always @(posedge clk) begin
-    if(~reset_i) begin
-        if(mem_write_i) begin
+    if(~(reset_i)) begin
+        if (mem_write_i) begin
             data_memory_reg[alu_resut_i] <= read_data2_i;
         end
-        if(mem_read_i) begin
+        if (mem_read_i) begin
             mem_data_read_reg <= data_memory_reg[alu_resut_i];
         end
     end
 end
 
 assign mem_data_read_o = mem_data_read_reg;
+
 endmodule

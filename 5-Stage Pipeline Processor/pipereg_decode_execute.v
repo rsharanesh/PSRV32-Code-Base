@@ -6,7 +6,7 @@ module decode_exceute_register (
 
     input [31:0] pcsrc_i, //PC source input
     input [31:0] pc_i, //PC input
-    input [31:0] instruction_i; //Instruction input
+    input [31:0] instruction_i, //Instruction input
 
     input [6:0] opcode_i, //opcode
     input [2:0] funct3_i, //funct3 field
@@ -43,7 +43,7 @@ module decode_exceute_register (
 
     output [31:0] de_read_data1_o, // data read from reg source-1
     output [31:0] de_read_data2_o, // data read from reg source-2
-    output [31:0] de_offset_o // sign extended offset
+    output [31:0] de_offset_o, // sign extended offset
 
     output de_alusrc1_o, //alu source
     output de_alusrc2_o, //alu source
@@ -54,7 +54,7 @@ module decode_exceute_register (
     output de_mem_write_o, //mem write
     output de_isbranchtaken_o, //branch taken
     output de_jump_o, // determines if jump is the instruction or not
-    output [5:0] de_alu_op_o, //alu op code 
+    output [5:0] de_alu_op_o //alu op code 
 );
 
 reg [31:0] decode_exceut_pcsrc_reg; //Program counter before update
