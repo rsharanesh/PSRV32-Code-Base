@@ -3,6 +3,7 @@
 
 module decode_exceute_register (
     input clk_i, //Clock input
+    input reset_i, // Reset
 
     input [31:0] pcsrc_i, //PC source input
     input [31:0] pc_i, //PC input
