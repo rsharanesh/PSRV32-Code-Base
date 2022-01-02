@@ -112,7 +112,7 @@ end
 
 assign de_pcsrc_o = de_pcsrc_reg;
 assign de_pc_o = de_pc_reg;
-assign de_instruction_o = 
+assign de_instruction_o = decode_execute_instruction_reg;
 
 assign de_opcode_o = decode_execute_opcode_reg;
 assign de_funct3_o = decode_execute_funct3_reg;
