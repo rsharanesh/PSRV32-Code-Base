@@ -42,18 +42,18 @@ assign op2 = alusrc2_i ? offset_i : read_data2_i;
 alu alu_inst(.op1_i(op1), .op2_i(op2), .aluop_i(aluop_i), .alu_result_o(alu_result_reg));
     
 always @(posedge clk_i) begin
-    if(reset_i) begin
+    if (reset_i) begin
         alu_result_reg <= 'b0;
         write_addr_reg_reg <= 'b0;
         pc_new_reg <= 'b0;
         pc_select_reg <= 'b0;
     end
     else if (jump_i) begin
-        if (instruction_i[6:0] == 7'b1101111) begin
+        if (instruction_i[6:0] === 7'b1101111) begin
             pc_new_reg <= pc_i + offset_i;
             pc_select_reg = 'b1;
         end
-        else if (instruction_i[6:0] == 7'b1100111) begin
+        else if (instruction_i[6:0] === 7'b1100111) begin
             pc_new_reg <= ((offset_i + op1) >> 1) << 1;
             pc_select_reg = 'b1;
         end
