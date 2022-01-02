@@ -11,6 +11,9 @@ module cpu(
 wire clk; // clock input
 wire reset; // reset input
 
+assign clk = clk_i;
+assign reset = reset_i;
+
 ///////////////////////Critical ones/////////////////////////
 wire pc_select; // program counter select
 wire [31:0] pc_new; // program counter branch from ex stage
@@ -187,7 +190,7 @@ control p0(
 
 pipereg_decode_exceute n1(
     .clk_i(clk),
-
+    .reset_i(reset),
     .pc_src_i(fd_pcsrc),
     .pc_i(fd_pc),
     .instruction_i(d_instruction),
