@@ -1,7 +1,7 @@
 //  Sharanesh: Verified
 //  Phani:
 
-module decode_exceute_register (
+module decode_execute_register (
     input clk_i, //Clock input
     input reset_i, // Reset
 
@@ -58,77 +58,80 @@ module decode_exceute_register (
     output [5:0] de_alu_op_o //alu op code 
 );
 
-reg [31:0] decode_exceut_pcsrc_reg; //Program counter before update
-reg [31:0] decode_exceut_pc_reg; //Program counter after update
+reg [31:0] decode_execute_pcsrc_reg; //Program counter before update
+reg [31:0] decode_execute_pc_reg; //Program counter after update
+reg [31:0] decode_execute_instruction_reg; // Instruction 
 
-reg [6:0] decode_exceute_opcode_reg; //opcode
-reg [2:0] decode_exceute_funct3_reg; //funct3 field
+reg [6:0] decode_execute_opcode_reg; //opcode
+reg [2:0] decode_execute_funct3_reg; //funct3 field
 
-reg [4:0] decode_exceute_rs1_reg; //rs1 field
-reg [4:0] decode_exceute_rs2_reg; //rs2 field
-reg [4:0] decode_exceute_rd_reg; //rd field
+reg [4:0] decode_execute_rs1_reg; //rs1 field
+reg [4:0] decode_execute_rs2_reg; //rs2 field
+reg [4:0] decode_execute_rd_reg; //rd field
 
-reg [31:0] decode_exceute_read_data1_reg; // data read from reg source-1
-reg [31:0] decode_exceute_read_data2_reg; // data read from reg source-2
-reg [31:0] decode_exceute_offset_reg; // sign extended offset
+reg [31:0] decode_execute_read_data1_reg; // data read from reg source-1
+reg [31:0] decode_execute_read_data2_reg; // data read from reg source-2
+reg [31:0] decode_execute_offset_reg; // sign extended offset
 
-reg decode_exceute_alusrc1_reg; //alu source
-reg decode_exceute_alusrc2_reg; //alu source
-reg [1:0] decode_exceute_dmem_to_reg_reg; //mem2reg
-reg decode_exceute_reg_write_reg; //reg_write (enables reg_ for writings)
-reg decode_exceute_reg_dest_reg; //register destination to select to two possible destinations.
-reg decode_exceute_mem_read_reg; //mem read
-reg decode_exceute_mem_write_reg; //mem write
-reg decode_exceute_isbranchtaken_reg; //branch taken
-reg decode_exceute_jump_reg; // determines if jump is the instruction or not
-reg [5:0] decode_exceute_alu_op_reg; //alu op code 
+reg decode_execute_alusrc1_reg; //alu source
+reg decode_execute_alusrc2_reg; //alu source
+reg [1:0] decode_execute_dmem_to_reg_reg; //mem2reg
+reg decode_execute_reg_write_reg; //reg_write (enables reg_ for writings)
+reg decode_execute_reg_dest_reg; //register destination to select to two possible destinations.
+reg decode_execute_mem_read_reg; //mem read
+reg decode_execute_mem_write_reg; //mem write
+reg decode_execute_isbranchtaken_reg; //branch taken
+reg decode_execute_jump_reg; // determines if jump is the instruction or not
+reg [5:0] decode_execute_alu_op_reg; //alu op code 
 
 always @(posedge clk) begin
-    decode_exceute_pcsrc_reg <= pcsrc_i;
-    decode_exceute_pc_reg <= pc_i;
+    decode_execute_pcsrc_reg <= pcsrc_i;
+    decode_execute_pc_reg <= pc_i;
+    decode_execute_instruction_reg <= instruction_i;
 
-    decode_exceute_opcode_reg <= opcode_i;
-    decode_exceute_funct3_reg <= funct3_i;
-    decode_exceute_rs1_reg <= rs1_i;
-    decode_exceute_rs2_reg <= rs2_i;
-    decode_exceute_rd_reg <= rd_i;
-    decode_exceute_read_data1_reg <= read_data1_i;
-    decode_exceute_read_data2_reg <= read_data2_i;
-    decode_exceute_offset_reg <= offset_i;
+    decode_execute_opcode_reg <= opcode_i;
+    decode_execute_funct3_reg <= funct3_i;
+    decode_execute_rs1_reg <= rs1_i;
+    decode_execute_rs2_reg <= rs2_i;
+    decode_execute_rd_reg <= rd_i;
+    decode_execute_read_data1_reg <= read_data1_i;
+    decode_execute_read_data2_reg <= read_data2_i;
+    decode_execute_offset_reg <= offset_i;
 
-    decode_exceute_alusrc1_reg <= alusrc1_i;
-    decode_exceute_alusrc2_reg <= alusrc2_i;
-    decode_exceute_dmem_to_reg_reg <= dmem_to_reg_i;
-    decode_exceute_reg_write_reg <= reg_write_i;
-    decode_exceute_reg_dest_reg <= reg_dest_i;
-    decode_exceute_mem_read_reg <= mem_read_i;
-    decode_exceute_mem_write_reg <= mem_write_i;
-    decode_exceute_isbranchtaken_reg <= isbranchtaken_i;
-    decode_exceute_jump_reg <= jump_i;
-    decode_exceute_alu_op_reg <= alu_op_i;
+    decode_execute_alusrc1_reg <= alusrc1_i;
+    decode_execute_alusrc2_reg <= alusrc2_i;
+    decode_execute_dmem_to_reg_reg <= dmem_to_reg_i;
+    decode_execute_reg_write_reg <= reg_write_i;
+    decode_execute_reg_dest_reg <= reg_dest_i;
+    decode_execute_mem_read_reg <= mem_read_i;
+    decode_execute_mem_write_reg <= mem_write_i;
+    decode_execute_isbranchtaken_reg <= isbranchtaken_i;
+    decode_execute_jump_reg <= jump_i;
+    decode_execute_alu_op_reg <= alu_op_i;
 end
 
-assign decode_pcsrc_o = de_pcsrc_reg;
-assign decode_pc_o = de_pc_reg;
+assign de_pcsrc_o = de_pcsrc_reg;
+assign de_pc_o = de_pc_reg;
+assign de_instruction_o = 
 
-assign de_opcode_o = decode_exceute_opcode_reg;
-assign de_funct3_o = decode_exceute_funct3_reg;
-assign de_rs1_o = decode_exceute_rs1_reg;
-assign de_rs2_o = decode_exceute_rs2_reg;
-assign de_rd_o = decode_exceute_rd_reg;
-assign de_read_data1_o = decode_exceute_read_data1_reg;
-assign de_read_data2_o = decode_exceute_read_data2_reg;
-assign de_offset_o = decode_exceute_offset_reg;
+assign de_opcode_o = decode_execute_opcode_reg;
+assign de_funct3_o = decode_execute_funct3_reg;
+assign de_rs1_o = decode_execute_rs1_reg;
+assign de_rs2_o = decode_execute_rs2_reg;
+assign de_rd_o = decode_execute_rd_reg;
+assign de_read_data1_o = decode_execute_read_data1_reg;
+assign de_read_data2_o = decode_execute_read_data2_reg;
+assign de_offset_o = decode_execute_offset_reg;
 
-assign de_alusrc1_o = decode_exceute_alusrc1_reg;
-assign de_alusrc2_o = decode_exceute_alusrc2_reg;
-assign de_mem_to_reg_o = decode_exceute_dmem_to_reg_reg;
-assign de_reg_write_o = decode_exceute_reg_write_reg;
-assign de_reg_dest_o = decode_exceute_reg_dest_reg;
-assign de_mem_read_o = decode_exceute_mem_read_reg;
-assign de_mem_write_o = decode_exceute_mem_write_reg;
-assign de_isbranchtaken_o = decode_exceute_isbranchtaken_reg;
-assign de_jump_o = decode_exceute_jump_reg;
-assign de_alu_op_o = decode_exceute_alu_op_reg;
+assign de_alusrc1_o = decode_execute_alusrc1_reg;
+assign de_alusrc2_o = decode_execute_alusrc2_reg;
+assign de_mem_to_reg_o = decode_execute_dmem_to_reg_reg;
+assign de_reg_write_o = decode_execute_reg_write_reg;
+assign de_reg_dest_o = decode_execute_reg_dest_reg;
+assign de_mem_read_o = decode_execute_mem_read_reg;
+assign de_mem_write_o = decode_execute_mem_write_reg;
+assign de_isbranchtaken_o = decode_execute_isbranchtaken_reg;
+assign de_jump_o = decode_execute_jump_reg;
+assign de_alu_op_o = decode_execute_alu_op_reg;
 
 endmodule
